@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dreawer.retail.domain.Address">
+
+    <!-- ================================================================================== -->
+    <!-- SQL新增																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 添加一条地址 -->
+    <insert id="save" parameterType="Address">
+        INSERT INTO
+        ret_adres(id,consignee,contact,ship_adres,adres,postcode,is_def,sto_id,crer_id,cre_tim)
+        VALUES (#{id},#{consignee},#{contact},#{shippingAddress},#{address},#{postcode},#{isDefault},#{storeId},#{creater.id},#{createTime})
+    </insert>
+    <!-- ================================================================================== -->
+    <!-- SQL删除																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 删除一条地址 -->
+    <delete id="deleteAddress" parameterType="Address">
+        DELETE FROM
+        ret_adres
+        WHERE
+        id = #{id}
+    </delete>
+
+    <!-- ================================================================================== -->
+    <!-- SQL更新																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 更新地址信息 -->
+    <update id="updateAddress" parameterType="Address">
+        UPDATE
+            ret_adres
+        SET
+            consignee = #{consignee},
+            contact = #{contact},
+            ship_adres = #{shippingAddress},
+            adres = #{address},
+            postcode = #{postcode},
+            updr_id = #{updater.id},
+            upd_tim = #{updateTime}
+        WHERE
+            id = #{id}
+        AND sto_id = #{storeId}
+    </update>
+
+    <!-- 设置一条默认地址并取消上一次默认地址 -->
+    <!--mysql 无法直接先select再update同一张表,需要先设置一个中间表-->
+    <update id="updateDefaultAddress" parameterType="Address">
+        UPDATE ret_adres
+        SET is_def = CASE id
+                     WHEN #{id} THEN 1
+                     ELSE 0
+                     END
+        WHERE id IN (SELECT t1.id FROM (SELECT * FROM ret_adres ) AS t1 WHERE t1.sto_id = #{storeId})
+    </update>
+
+    <!-- ================================================================================== -->
+    <!-- SQL查询																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 查询所有地址个数 -->
+    <select id="getCountByStoreId" parameterType="String" resultType="Integer">
+        SELECT
+            count(1)
+        FROM
+            ret_adres
+        WHERE
+            sto_id = #{storeId}
+    </select>
+
+    <!-- 根据id查询地址 -->
+    <select id="findAddressById" parameterType="Map" resultMap="AddressResultMap">
+        SELECT
+            <include refid="basicFields"/>
+        FROM
+            ret_adres
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAllAddressByStoreId" parameterType="String" resultMap="AddressResultMap">
+        SELECT
+          <include refid="basicFields"/>
+        FROM
+            ret_adres
+        WHERE sto_id = #{storeId}
+        ORDER BY
+        cre_tim
+        DESC
+    </select>
+    <!-- ================================================================================== -->
+    <!-- 公用SQL定义																			-->
+    <!-- ================================================================================== -->
+
+    <!-- 基本信息 -->
+    <sql id="basicFields">
+        id,consignee,contact,ship_adres,adres,postcode,is_def,sto_id,crer_id,cre_tim
+    </sql>
+
+    <!-- ================================================================================== -->
+    <!-- 结果集映射																				-->
+    <!-- ================================================================================== -->
+
+    <resultMap id="AddressResultMap" type="Address">
+        <result property="id" column="id" />
+        <result property="consignee" column="consignee" />
+        <result property="contact" column="contact" />
+        <result property="shippingAddress" column="ship_adres" />
+        <result property="address" column="adres" />
+        <result property="postcode" column="postcode" />
+        <result property="isDefault" column="is_def" />
+        <result property="storeId" column="sto_id" />
+        <result property="creater.id" column="crer_id" />
+        <result property="createTime" column="cre_tim" />
+        <result property="updater.id" column="updr_id" />
+        <result property="updateTime" column="upd_tim" />
+    </resultMap>
+</mapper>

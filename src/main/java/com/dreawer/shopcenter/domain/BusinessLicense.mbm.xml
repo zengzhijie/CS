@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dreawer.retail.domain.BusinessLicense">
+
+    <!-- ================================================================================== -->
+    <!-- SQL新增																				-->
+    <!-- ================================================================================== -->
+	<insert id="addBusinessLicense" parameterType="BusinessLicense">
+		INSERT INTO aci_ent_lic(id, ent_id, name, image, bus_sco, leg_reps, val_typ, validity, address, 
+			bus_reg_num, crer_id)
+        VALUES(#{id}, #{enterpriseId}, #{name}, #{image}, #{businessScope}, #{legalRepresentative}, 
+        	#{validityType}, #{validity}, #{address}, #{registrationNumber}, #{creater.id})
+	</insert>
+    <!-- ================================================================================== -->
+    <!-- SQL删除																				-->
+    <!-- ================================================================================== -->
+
+    <!-- ================================================================================== -->
+    <!-- SQL更新																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 更新营业执照信息  -->
+    <update id="updateBusinessLicense" parameterType="BusinessLicense">
+        UPDATE aci_ent_lic
+        SET ent_id=#{enterpriseId},name=#{name},image=#{image},bus_sco=#{businessScope},
+        leg_reps=#{legalRepresentative},val_typ=#{validityType},validity=#{validity},address=#{address},
+        bus_reg_num=#{registrationNumber},updr_id = #{updater.id}, upd_tim = #{updateTime}
+        WHERE id = #{id}
+    </update>
+
+    <!-- ================================================================================== -->
+    <!-- SQL查询																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 根据店铺ID查询营业执照信息 -->
+    <select id="findBusinessLicense" parameterType="String" resultMap="businessLicenseResultMap">
+        <include refid="basicFields"/>
+        FROM aci_ent_lic
+        WHERE ent_id = #{enterpriseId}
+    </select>
+
+ 	<!-- 根据店铺ID查询营业执照信息 -->
+    <select id="findBusinessLicenseById" parameterType="String" resultMap="businessLicenseResultMap">
+        <include refid="basicFields"/>
+        FROM aci_ent_lic
+        WHERE id = #{id}
+    </select>
+    
+    <!-- ================================================================================== -->
+    <!-- 公用SQL定义																			-->
+    <!-- ================================================================================== -->
+
+    <!-- 基本信息 -->
+    <sql id="basicFields">
+        SELECT id, ent_id, name, image, bus_sco, leg_reps, val_typ, validity, address, bus_reg_num,
+        crer_id,cre_tim
+    </sql>
+
+    <!-- ================================================================================== -->
+    <!-- 结果集映射																				-->
+    <!-- ================================================================================== -->
+
+    <resultMap id="businessLicenseResultMap" type="BusinessLicense">
+        <result property="id" column="id" />
+        <result property="enterpriseId" column="ent_id" />
+        <result property="name" column="name" />
+        <result property="image" column="image" />
+        <result property="businessScope" column="bus_sco" />
+        <result property="legalRepresentative" column="leg_reps" />
+        <result property="validityType" column="val_typ" />
+        <result property="validity" column="validity" />
+        <result property="address" column="address" />
+        <result property="registrationNumber" column="bus_reg_num" />
+        <result property="creater.id" column="crer_id" />
+        <result property="createTime" column="cre_tim" />
+    </resultMap>
+</mapper>

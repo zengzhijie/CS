@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dreawer.retail.domain.Certificate">
+
+    <!-- ================================================================================== -->
+    <!-- SQL新增																				-->
+    <!-- ================================================================================== -->
+    
+	<!-- 保存地址信息 -->
+	<insert id="addCertificate" parameterType="Certificate">
+        INSERT INTO aci_ent_cert(id, ent_id, name, image, number, address,val_typ,validity,
+        	crer_id)
+        VALUES(#{id}, #{enterpriseId}, #{name}, #{image}, #{number}, #{address}, #{validityType}, 
+        	#{validity}, #{creater.id})
+    </insert>
+    
+    <!-- ================================================================================== -->
+    <!-- SQL删除																				-->
+    <!-- ================================================================================== -->
+
+    <!-- ================================================================================== -->
+    <!-- SQL更新																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 更新营业执照信息  -->
+    <update id="updateCertificate" parameterType="Certificate">
+        UPDATE aci_ent_cert
+        <trim prefix="set" suffixOverrides=",">
+            <if test="image!=null">
+                image=#{image},
+            </if>
+            <if test="number!=null">
+                number=#{number},
+            </if>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="address!=null">
+                address=#{address},
+            </if>
+            <if test="validityType!=null">
+                val_typ=#{validityType},
+            </if>
+            <if test="validity!=null">
+                validity=#{validity},
+            </if>
+            <if test="updater.id!=null">
+                updr_id = #{updater.id},
+            </if>
+            <if test="updateTime!=null">
+                upd_tim = #{updateTime},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- ================================================================================== -->
+    <!-- SQL查询																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 根据店铺ID和执照类型查询营业执照信息 -->
+    <select id="findCertificateById" parameterType="String" resultMap="certificateResultMap">
+        <include refid="basicFields"/>
+        FROM aci_ent_cert
+        WHERE id = #{id}
+    </select>
+
+	<!-- 根据店铺ID和执照类型查询营业执照信息 -->
+    <select id="findCertificates" parameterType="String" resultMap="certificateResultMap">
+        <include refid="basicFields"/>
+        FROM aci_ent_cert
+        WHERE ent_id = #{enterpriseId}
+    </select>
+
+    <!-- ================================================================================== -->
+    <!-- 公用SQL定义																			-->
+    <!-- ================================================================================== -->
+
+    <!-- 基本信息 -->
+    <sql id="basicFields">
+        SELECT id, ent_id, name, image, number, address, val_typ, validity,
+        crer_id, cre_tim
+    </sql>
+
+    <!-- ================================================================================== -->
+    <!-- 结果集映射																				-->
+    <!-- ================================================================================== -->
+
+    <resultMap id="certificateResultMap" type="Certificate">
+        <result property="id" column="id" />
+        <result property="enterpriseId" column="ent_id" />
+        <result property="image" column="image" />
+        <result property="number" column="number" />
+        <result property="address" column="address" />
+        <result property="validityType" column="val_typ" />
+        <result property="validity" column="validity" />
+        <result property="creater.id" column="crer_id" />
+        <result property="createTime" column="cre_tim" />
+    </resultMap>
+</mapper>

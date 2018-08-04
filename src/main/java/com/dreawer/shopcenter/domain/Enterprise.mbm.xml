@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dreawer.retail.domain.Enterprise">
+	
+	<!-- ================================================================================== -->
+	<!-- SQL语句（增加）																		-->
+	<!-- ================================================================================== -->
+	
+	<!-- 保存地址信息 -->
+	<insert id="save" parameterType="Enterprise">
+        INSERT INTO aci_enterprise(id, app_id, app_ctg, name, sht_nam, logo, intro, province, city,
+        	area, detail, email, phone,url,crer_id)
+        VALUES(#{id}, #{appid}, #{category}, #{name}, #{shortname}, #{logo}, #{intro}, #{province},
+        	#{city}, #{area}, #{detail}, #{email}, #{phone},#{url},#{creater.id})
+    </insert>
+    
+    <!-- ================================================================================== -->
+	<!-- SQL语句（删除）																		-->
+	<!-- ================================================================================== -->
+	
+    <!-- 删除地址信息 -->
+    <delete id="delete" parameterType="Enterprise">
+    	DELETE FROM aci_enterprise
+    	WHERE id = #{id}
+    </delete>
+    
+    <!-- ================================================================================== -->
+	<!-- SQL语句（更新）																		-->
+	<!-- ================================================================================== -->
+
+	<!-- 更新认证信息 -->
+	<update id="updateBasic" parameterType="Enterprise">
+		UPDATE aci_enterprise
+		SET	name=#{name}, sht_nam=#{shortname}, logo=#{logo},intro=#{intro}, coordinate=#{coordinate},
+			province=#{province}, city=#{city}, area=#{area}, detail=#{detail}, email=#{email}, phone=#{phone}, 
+			mobile=#{mobile}, bot_img=#{bootImage}, bot_tim=#{bootTime}, posters=#{posters}, telephone=#{telephone}, 
+			url=#{url},updr_id=#{updater.id}, upd_tim=#{updateTime}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateMerhcandiseCategory" parameterType="Enterprise">
+		UPDATE aci_enterprise
+		SET mer_cate=#{merchanCategories}
+		WHERE id=#{id}
+	</update>
+
+	<update id="updateMemberRegisterPort" parameterType="Map">
+		UPDATE aci_enterprise
+		SET mem_por=#{type}
+		WHERE id=#{id}
+	</update>
+
+	
+    <!-- ================================================================================== -->
+	<!-- SQL语句（查询）																		-->
+	<!-- ================================================================================== -->
+	
+	<!-- 查询地址信息 -->
+    <select id="findEnterprise" parameterType="Map" resultMap="enterpriseResultMap">
+        SELECT <include refid="enterpriseBasicFields"/>
+        FROM aci_enterprise
+        <choose>  
+            <when test="type=='id'">  
+                WHERE id=#{id}
+            </when>  
+            <when test="type=='app'">  
+                WHERE app_id=#{appid}
+            </when>
+        </choose>  
+    </select>
+
+	<select id="findBootByAppid" parameterType="String" resultType="Map">
+		SELECT id AS id,bot_img AS bootImage,bot_tim AS bootTime
+		FROM aci_enterprise
+		where app_id=#{appid}
+	</select>
+    
+    <select id="findEnterpriseByName" parameterType="String" resultMap="enterpriseResultMap">
+        SELECT <include refid="enterpriseBasicFields"/>
+        FROM aci_enterprise
+        WHERE name=#{name}
+    </select>
+
+	<select id="findAllEnterpriseId" resultType="String">
+		SELECT
+			id
+		FROM aci_enterprise
+	</select>
+    
+    <!-- ================================================================================== -->
+	<!-- 公用SQL定义																			-->
+	<!-- ================================================================================== -->
+    
+    <!-- 地址基本信息字段 -->
+	<sql id="enterpriseBasicFields">
+		id, app_id, app_ctg, name, sht_nam, logo ,intro, coordinate, province, city, area, detail, email,
+		phone, mobile, bot_img, bot_tim, posters, telephone,mer_cate,mem_por,gro_rule,url,cre_tim
+	</sql>
+	
+    <!-- ================================================================================== -->
+	<!-- 结果集映射																			    -->
+	<!-- ================================================================================== -->
+	
+	<!-- 地址基本信息 -->
+    <resultMap id="enterpriseResultMap" type="Enterprise">
+		<id property="id" column="id" />
+		<result property="appid" column="app_id" />
+		<result property="category" column="app_ctg" />
+		<result property="name" column="name" />
+		<result property="shortname" column="sht_nam" />
+		<result property="logo" column="logo" />
+		<result property="intro" column="intro" />
+		<result property="coordinate" column="coordinate" />
+		<result property="province" column="province" />
+		<result property="city" column="city" />
+		<result property="area" column="area" />
+		<result property="detail" column="detail" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="mobile" column="mobile" />
+		<result property="bootImage" column="bot_img" />
+		<result property="bootTime" column="bot_tim" />
+		<result property="posters" column="posters" />
+		<result property="telephone" column="telephone" />
+		<result property="merchanCategories" column="mer_cate" />
+		<result property="memberRegisterPort" column="mem_por" />
+		<result property="growthRules" column="gro_rule" />
+		<result property="url" column="url" />
+		<result property="createTime" column="cre_tim" />
+		<result property="creater.id" column="crer_id" />
+	</resultMap>
+</mapper>
