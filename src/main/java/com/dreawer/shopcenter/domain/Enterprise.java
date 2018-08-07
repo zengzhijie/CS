@@ -1,11 +1,10 @@
 package com.dreawer.shopcenter.domain;
 
-import com.dreawer.dream.domain.BaseDomain;
-import com.dreawer.user.domain.User;
+import com.dreawer.domain.BaseDomain;
 
 import java.sql.Timestamp;
 
-public class Enterprise extends BaseDomain{
+public class Enterprise extends BaseDomain {
 
 	private static final long serialVersionUID = 8940480431090127598L;
 
@@ -85,12 +84,10 @@ public class Enterprise extends BaseDomain{
 		this.memberRegisterPort = memberRegisterPort;
 	}
 
-	private User creater = null; // 创建者
+	private String userId = null; // 创建者
     
     private Timestamp createTime = null; // 创建时间
-    
-    private User updater = null; // 更新者
-    
+
     private Timestamp updateTime = null; // 更新时间
 	
 	public String getName() {
@@ -149,12 +146,16 @@ public class Enterprise extends BaseDomain{
 		this.detail = detail;
 	}
 
-	public User getCreater() {
-		return creater;
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
 	}
 
-	public void setCreater(User creater) {
-		this.creater = creater;
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public Timestamp getCreateTime() {
@@ -163,14 +164,6 @@ public class Enterprise extends BaseDomain{
 
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
-	}
-
-	public User getUpdater() {
-		return updater;
-	}
-
-	public void setUpdater(User updater) {
-		this.updater = updater;
 	}
 
 	public Timestamp getUpdateTime() {
@@ -269,32 +262,5 @@ public class Enterprise extends BaseDomain{
 		this.bootTime = bootTime;
 	}
 
-	@Override
-	public String toString() {
-		return "Enterprise{" +
-				"appid='" + appid + '\'' +
-				", category='" + category + '\'' +
-				", name='" + name + '\'' +
-				", shortname='" + shortname + '\'' +
-				", logo='" + logo + '\'' +
-				", intro='" + intro + '\'' +
-				", coordinate='" + coordinate + '\'' +
-				", province='" + province + '\'' +
-				", city='" + city + '\'' +
-				", area='" + area + '\'' +
-				", detail='" + detail + '\'' +
-				", email='" + email + '\'' +
-				", phone='" + phone + '\'' +
-				", mobile='" + mobile + '\'' +
-				", bootImage='" + bootImage + '\'' +
-				", bootTime=" + bootTime +
-				", posters='" + posters + '\'' +
-				", telephone='" + telephone + '\'' +
-				", url='" + url + '\'' +
-				", creater=" + creater +
-				", createTime=" + createTime +
-				", updater=" + updater +
-				", updateTime=" + updateTime +
-				'}';
-	}
+
 }

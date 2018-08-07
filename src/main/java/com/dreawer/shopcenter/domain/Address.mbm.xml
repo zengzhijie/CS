@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.dreawer.retail.domain.Address">
+<mapper namespace="com.dreawer.shopcenter.domain.Address">
 
     <!-- ================================================================================== -->
     <!-- SQL新增																				-->
@@ -11,7 +11,7 @@
     <insert id="save" parameterType="Address">
         INSERT INTO
         ret_adres(id,consignee,contact,ship_adres,adres,postcode,is_def,sto_id,crer_id,cre_tim)
-        VALUES (#{id},#{consignee},#{contact},#{shippingAddress},#{address},#{postcode},#{isDefault},#{storeId},#{creater.id},#{createTime})
+        VALUES (#{id},#{consignee},#{contact},#{shippingAddress},#{address},#{postcode},#{isDefault},#{storeId},#{userId},#{createTime})
     </insert>
     <!-- ================================================================================== -->
     <!-- SQL删除																				-->
@@ -39,7 +39,7 @@
             ship_adres = #{shippingAddress},
             adres = #{address},
             postcode = #{postcode},
-            updr_id = #{updater.id},
+            updr_id = #{updaterId},
             upd_tim = #{updateTime}
         WHERE
             id = #{id}
@@ -112,9 +112,9 @@
         <result property="postcode" column="postcode" />
         <result property="isDefault" column="is_def" />
         <result property="storeId" column="sto_id" />
-        <result property="creater.id" column="crer_id" />
+        <result property="userId" column="crer_id" />
         <result property="createTime" column="cre_tim" />
-        <result property="updater.id" column="updr_id" />
+        <result property="updaterId" column="updr_id" />
         <result property="updateTime" column="upd_tim" />
     </resultMap>
 </mapper>

@@ -1,9 +1,9 @@
 package com.dreawer.shopcenter.form;
 
-import com.dreawer.dream.validation.constraint.Length;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import static com.dreawer.retail.MessageConstants.*;
+import static com.dreawer.shopcenter.MessageConstants.*;
 
 /**
  * <CODE>EditIntroForm</CODE> 编辑店铺简介表单。

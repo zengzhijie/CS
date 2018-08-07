@@ -1,10 +1,10 @@
 package com.dreawer.shopcenter.form;
 
-import com.dreawer.dream.validation.constraint.Length;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import static com.dreawer.retail.MessageConstants.VAL_BOOT_IMG_LENTH;
-import static com.dreawer.retail.MessageConstants.VAL_OBJECT_ID_NOT_EMPTY;
+import static com.dreawer.shopcenter.MessageConstants.VAL_BOOT_IMG_LENTH;
+import static com.dreawer.shopcenter.MessageConstants.VAL_OBJECT_ID_NOT_EMPTY;
 
 public class EditEnterpriseForm extends BaseEnterpriseForm{
 	

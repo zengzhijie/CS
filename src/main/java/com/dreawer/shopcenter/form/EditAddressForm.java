@@ -2,7 +2,7 @@ package com.dreawer.shopcenter.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import static com.dreawer.retail.MessageConstants.VAL_ADDRESS_ID_NOTEMPTY;
+import static com.dreawer.shopcenter.MessageConstants.VAL_ADDRESS_ID_NOTEMPTY;
 
 /**
  * <CODE>EditAddressForm</CODE>

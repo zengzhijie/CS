@@ -1,10 +1,11 @@
 package com.dreawer.shopcenter.form;
 
-import com.dreawer.dream.validation.constraint.Length;
+
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Pattern;
 
-import static com.dreawer.retail.MessageConstants.*;
+import static com.dreawer.shopcenter.MessageConstants.*;
 
 public class BaseCertificateForm {
 

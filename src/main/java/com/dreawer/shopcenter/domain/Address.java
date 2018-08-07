@@ -1,7 +1,6 @@
 package com.dreawer.shopcenter.domain;
 
-import com.dreawer.dream.domain.BaseDomain;
-import com.dreawer.user.domain.User;
+import com.dreawer.domain.BaseDomain;
 
 import java.sql.Timestamp;
 
@@ -11,7 +10,7 @@ import java.sql.Timestamp;
  * @author fenrir
  * @Date 17-12-25
  */
-public class Address extends BaseDomain{
+public class Address extends BaseDomain {
 
     private static final long serialVersionUID = -3040562912070693905L;
 
@@ -37,20 +36,32 @@ public class Address extends BaseDomain{
         this.storeId = storeId;
     }
 
-    private User creater = null; // 创建者
+    private String userId = null; // 创建者
 
     private Timestamp createTime = null; // 创建时间
 
-    private User updater = null; // 更新者
+    private String updaterId = null; // 更新者
 
     private Timestamp updateTime = null; // 更新时间
 
-    public User getCreater() {
-        return creater;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setCreater(User creater) {
-        this.creater = creater;
+    public Boolean getDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(Boolean aDefault) {
+        isDefault = aDefault;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Timestamp getCreateTime() {
@@ -61,12 +72,12 @@ public class Address extends BaseDomain{
         this.createTime = createTime;
     }
 
-    public User getUpdater() {
-        return updater;
+    public String getUpdaterId() {
+        return updaterId;
     }
 
-    public void setUpdater(User updater) {
-        this.updater = updater;
+    public void setUpdaterId(String updaterId) {
+        this.updaterId = updaterId;
     }
 
     public Timestamp getUpdateTime() {

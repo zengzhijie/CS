@@ -1,15 +1,15 @@
 package com.dreawer.shopcenter.persistence;
 
-import com.dreawer.dream.persistence.mybatis.MyBatisBaseDao;
-import com.dreawer.retail.domain.Address;
+import com.dreawer.persistence.mybatis.MyBatisBaseDao;
+import com.dreawer.shopcenter.domain.Address;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dreawer.retail.DAOConstants.ADDRESS_DAO;
-import static com.dreawer.retail.DomainConstants.ID;
+import static com.dreawer.shopcenter.consts.DAOConstants.ADDRESS_DAO;
+import static com.dreawer.shopcenter.consts.DomainConstants.ID;
 
 /**
  * <CODE>AddressDao</CODE>
@@ -19,7 +19,7 @@ import static com.dreawer.retail.DomainConstants.ID;
  */
 
 @Repository(ADDRESS_DAO)
-public class AddressDao extends MyBatisBaseDao<Address,String>{
+public class AddressDao extends MyBatisBaseDao<Address> {
 
 
     public Integer getCountByStoreId(String storeId) {

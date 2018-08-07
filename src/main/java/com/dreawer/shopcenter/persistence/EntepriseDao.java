@@ -1,19 +1,19 @@
 package com.dreawer.shopcenter.persistence;
 
-import com.dreawer.dream.persistence.mybatis.MyBatisBaseDao;
-import com.dreawer.retail.domain.Enterprise;
+import com.dreawer.persistence.mybatis.MyBatisBaseDao;
+import com.dreawer.shopcenter.domain.Enterprise;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dreawer.retail.DAOConstants.ENTERPRISE_DAO;
-import static com.dreawer.retail.DomainConstants.ID;
-import static com.dreawer.retail.DomainConstants.TYPE;
+import static com.dreawer.shopcenter.consts.DAOConstants.ENTERPRISE_DAO;
+import static com.dreawer.shopcenter.consts.DomainConstants.ID;
+import static com.dreawer.shopcenter.consts.DomainConstants.TYPE;
 
 @Repository(ENTERPRISE_DAO)
-public class EntepriseDao extends MyBatisBaseDao<Enterprise, String> {
+public class EntepriseDao extends MyBatisBaseDao<Enterprise> {
 	
 	/**
 	 * 保存企业信息。

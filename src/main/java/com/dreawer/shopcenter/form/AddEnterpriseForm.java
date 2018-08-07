@@ -2,7 +2,7 @@ package com.dreawer.shopcenter.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import static com.dreawer.retail.MessageConstants.VAL_APP_ID_EMPTY;
+import static com.dreawer.shopcenter.MessageConstants.VAL_APP_ID_EMPTY;
 
 public class AddEnterpriseForm extends BaseEnterpriseForm{
 

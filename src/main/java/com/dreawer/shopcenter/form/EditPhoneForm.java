@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Pattern;
 
-import static com.dreawer.retail.MessageConstants.*;
+import static com.dreawer.shopcenter.MessageConstants.*;
 
 /**
  * <CODE>EditPhoneForm</CODE> 编辑店铺电话表单。

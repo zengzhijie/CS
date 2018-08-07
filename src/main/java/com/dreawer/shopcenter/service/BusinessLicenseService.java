@@ -1,14 +1,14 @@
 package com.dreawer.shopcenter.service;
 
 
-import com.dreawer.retail.domain.BusinessLicense;
-import com.dreawer.retail.persistence.BusinessLicenseDao;
+import com.dreawer.shopcenter.domain.BusinessLicense;
+import com.dreawer.shopcenter.persistence.BusinessLicenseDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-import static com.dreawer.retail.DAOConstants.BUSINESS_LICENSE_DAO;
-import static com.dreawer.retail.ServiceConstants.BUSSINESS_LICENCE_SERVICE;
+import static com.dreawer.shopcenter.ServiceConstants.BUSSINESS_LICENCE_SERVICE;
+import static com.dreawer.shopcenter.consts.DAOConstants.BUSINESS_LICENSE_DAO;
 
 @Service(BUSSINESS_LICENCE_SERVICE)
 public class BusinessLicenseService {

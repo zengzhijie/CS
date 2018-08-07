@@ -2,7 +2,7 @@ package com.dreawer.shopcenter.form;
 
 import javax.validation.constraints.NotNull;
 
-import static com.dreawer.coupon.MessageConstants.*;
+import static com.dreawer.shopcenter.MessageConstants.*;
 
 /**
  * <CODE>ViewCouponByOrderForm</CODE>

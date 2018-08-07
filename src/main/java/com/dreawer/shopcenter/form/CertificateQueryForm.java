@@ -2,8 +2,8 @@ package com.dreawer.shopcenter.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import static com.dreawer.retail.MessageConstants.VAL_CERT_TYPE_NOTEMPTY;
-import static com.dreawer.retail.MessageConstants.VAL_STORE_ID_NOTEMPTY;
+import static com.dreawer.shopcenter.MessageConstants.VAL_CERT_TYPE_NOTEMPTY;
+import static com.dreawer.shopcenter.MessageConstants.VAL_STORE_ID_NOTEMPTY;
 
 /**
  * Created by fenrir on 9/26/17.

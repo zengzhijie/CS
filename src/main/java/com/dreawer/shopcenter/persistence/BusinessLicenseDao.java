@@ -1,13 +1,13 @@
 package com.dreawer.shopcenter.persistence;
 
-import com.dreawer.dream.persistence.mybatis.MyBatisBaseDao;
-import com.dreawer.retail.domain.BusinessLicense;
+import com.dreawer.persistence.mybatis.MyBatisBaseDao;
+import com.dreawer.shopcenter.domain.BusinessLicense;
 import org.springframework.stereotype.Repository;
 
-import static com.dreawer.retail.DAOConstants.BUSINESS_LICENSE_DAO;
+import static com.dreawer.shopcenter.consts.DAOConstants.BUSINESS_LICENSE_DAO;
 
 @Repository(BUSINESS_LICENSE_DAO)
-public class BusinessLicenseDao extends MyBatisBaseDao<BusinessLicense,String>{
+public class BusinessLicenseDao extends MyBatisBaseDao<BusinessLicense> {
 
     /**
      * 根据ID获取营业执照信息。

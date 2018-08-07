@@ -2,7 +2,7 @@ package com.dreawer.shopcenter.form;
 
 import javax.validation.constraints.NotNull;
 
-import static com.dreawer.retail.MessageConstants.*;
+import static com.dreawer.shopcenter.MessageConstants.*;
 
 /**
  * <CODE>ViewReductionForm</CODE>

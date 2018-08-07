@@ -1,7 +1,7 @@
 package com.dreawer.shopcenter.service;
 
-import com.dreawer.retail.domain.Enterprise;
-import com.dreawer.retail.persistence.EntepriseDao;
+import com.dreawer.shopcenter.domain.Enterprise;
+import com.dreawer.shopcenter.persistence.EntepriseDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dreawer.retail.DAOConstants.ENTERPRISE_DAO;
-import static com.dreawer.retail.ServiceConstants.ENTERPRISE_SERVICE;
+import static com.dreawer.shopcenter.ServiceConstants.ENTERPRISE_SERVICE;
+import static com.dreawer.shopcenter.consts.DAOConstants.ENTERPRISE_DAO;
 
 @Service(ENTERPRISE_SERVICE)
 public class EnterpriseService {

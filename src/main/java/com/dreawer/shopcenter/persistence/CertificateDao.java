@@ -1,15 +1,15 @@
 package com.dreawer.shopcenter.persistence;
 
-import com.dreawer.dream.persistence.mybatis.MyBatisBaseDao;
-import com.dreawer.retail.domain.Certificate;
+import com.dreawer.persistence.mybatis.MyBatisBaseDao;
+import com.dreawer.shopcenter.domain.Certificate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.dreawer.retail.DAOConstants.CERTIFICATE_DAO;
+import static com.dreawer.shopcenter.consts.DAOConstants.CERTIFICATE_DAO;
 
 @Repository(CERTIFICATE_DAO)
-public class CertificateDao extends MyBatisBaseDao<Certificate,String>{
+public class CertificateDao extends MyBatisBaseDao<Certificate> {
 
     /**
      * 查找其他证件信息。

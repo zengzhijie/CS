@@ -1,12 +1,11 @@
 package com.dreawer.shopcenter.domain;
 
-import com.dreawer.dream.domain.BaseDomain;
-import com.dreawer.user.domain.User;
+import com.dreawer.domain.BaseDomain;
 
 import java.sql.Timestamp;
 
 
-public class BusinessLicense extends BaseDomain{
+public class BusinessLicense extends BaseDomain {
 
     private static final long serialVersionUID = 7154170738721391613L;
 
@@ -28,11 +27,11 @@ public class BusinessLicense extends BaseDomain{
 
     private String address = null; //地址
 
-    private User creater = null; // 创建者
+    private String userId = null; // 创建者
 
     private Timestamp createTime = null; // 创建时间
 
-    private User updater = null; // 更新者
+    private String updaterId = null; // 更新者
 
     private Timestamp updateTime = null; // 更新时间
 
@@ -100,12 +99,16 @@ public class BusinessLicense extends BaseDomain{
         this.address = address;
     }
 
-    public User getCreater() {
-        return creater;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setCreater(User creater) {
-        this.creater = creater;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Timestamp getCreateTime() {
@@ -116,12 +119,12 @@ public class BusinessLicense extends BaseDomain{
         this.createTime = createTime;
     }
 
-    public User getUpdater() {
-        return updater;
+    public String getUpdaterId() {
+        return updaterId;
     }
 
-    public void setUpdater(User updater) {
-        this.updater = updater;
+    public void setUpdaterId(String updaterId) {
+        this.updaterId = updaterId;
     }
 
     public Timestamp getUpdateTime() {

@@ -2,7 +2,7 @@ package com.dreawer.shopcenter.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import static com.dreawer.retail.MessageConstants.VAL_OBJECT_ID_NOT_EMPTY;
+import static com.dreawer.shopcenter.MessageConstants.VAL_OBJECT_ID_NOT_EMPTY;
 
 public class EditBusinessLicenseForm extends BaseBusinessLicenseForm {
 

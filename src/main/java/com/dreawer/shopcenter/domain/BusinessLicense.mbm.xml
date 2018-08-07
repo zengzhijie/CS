@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.dreawer.retail.domain.BusinessLicense">
+<mapper namespace="com.dreawer.shopcenter.domain.BusinessLicense">
 
     <!-- ================================================================================== -->
     <!-- SQL新增																				-->
@@ -10,7 +10,7 @@
 		INSERT INTO aci_ent_lic(id, ent_id, name, image, bus_sco, leg_reps, val_typ, validity, address, 
 			bus_reg_num, crer_id)
         VALUES(#{id}, #{enterpriseId}, #{name}, #{image}, #{businessScope}, #{legalRepresentative}, 
-        	#{validityType}, #{validity}, #{address}, #{registrationNumber}, #{creater.id})
+        	#{validityType}, #{validity}, #{address}, #{registrationNumber}, #{userId})
 	</insert>
     <!-- ================================================================================== -->
     <!-- SQL删除																				-->
@@ -25,7 +25,7 @@
         UPDATE aci_ent_lic
         SET ent_id=#{enterpriseId},name=#{name},image=#{image},bus_sco=#{businessScope},
         leg_reps=#{legalRepresentative},val_typ=#{validityType},validity=#{validity},address=#{address},
-        bus_reg_num=#{registrationNumber},updr_id = #{updater.id}, upd_tim = #{updateTime}
+        bus_reg_num=#{registrationNumber},updr_id = #{updaterId}, upd_tim = #{updateTime}
         WHERE id = #{id}
     </update>
 
@@ -72,7 +72,7 @@
         <result property="validity" column="validity" />
         <result property="address" column="address" />
         <result property="registrationNumber" column="bus_reg_num" />
-        <result property="creater.id" column="crer_id" />
+        <result property="userId" column="crer_id" />
         <result property="createTime" column="cre_tim" />
     </resultMap>
 </mapper>

@@ -1,14 +1,14 @@
 package com.dreawer.shopcenter.service;
 
-import com.dreawer.retail.domain.Address;
-import com.dreawer.retail.persistence.AddressDao;
+import com.dreawer.shopcenter.domain.Address;
+import com.dreawer.shopcenter.persistence.AddressDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-import static com.dreawer.retail.DAOConstants.ADDRESS_DAO;
-import static com.dreawer.retail.ServiceConstants.ADDRESS_SERVICE;
+import static com.dreawer.shopcenter.ServiceConstants.ADDRESS_SERVICE;
+import static com.dreawer.shopcenter.consts.DAOConstants.ADDRESS_DAO;
 
 /**
  * <CODE>AddressService</CODE>

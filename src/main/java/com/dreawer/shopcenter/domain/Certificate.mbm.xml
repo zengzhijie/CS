@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.dreawer.retail.domain.Certificate">
+<mapper namespace="com.dreawer.shopcenter.domain.Certificate">
 
     <!-- ================================================================================== -->
     <!-- SQL新增																				-->
@@ -12,7 +12,7 @@
         INSERT INTO aci_ent_cert(id, ent_id, name, image, number, address,val_typ,validity,
         	crer_id)
         VALUES(#{id}, #{enterpriseId}, #{name}, #{image}, #{number}, #{address}, #{validityType}, 
-        	#{validity}, #{creater.id})
+        	#{validity}, #{userId})
     </insert>
     
     <!-- ================================================================================== -->
@@ -45,8 +45,8 @@
             <if test="validity!=null">
                 validity=#{validity},
             </if>
-            <if test="updater.id!=null">
-                updr_id = #{updater.id},
+            <if test="updaterId!=null">
+                updr_id = #{updaterId},
             </if>
             <if test="updateTime!=null">
                 upd_tim = #{updateTime},
@@ -95,7 +95,7 @@
         <result property="address" column="address" />
         <result property="validityType" column="val_typ" />
         <result property="validity" column="validity" />
-        <result property="creater.id" column="crer_id" />
+        <result property="userId" column="crer_id" />
         <result property="createTime" column="cre_tim" />
     </resultMap>
 </mapper>
