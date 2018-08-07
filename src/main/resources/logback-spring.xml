@@ -178,7 +178,6 @@
 
     <!-- 将配置应用到root目录下 -->
     <root level="INFO">
-        <appender-ref ref="FILEINFO" />
         <appender-ref ref="STDOUT" />
         <appender-ref ref="LOGSTASH" />
     </root>
