@@ -3,12 +3,20 @@ package com.dreawer.shopcenter.controller;
 import com.dreawer.responsecode.rcdt.Error;
 import com.dreawer.responsecode.rcdt.ResponseCode;
 import com.dreawer.responsecode.rcdt.ResponseCodeRepository;
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
 
@@ -19,6 +27,9 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @version 1.0
  */
 public class BaseController {
+
+    @Autowired
+    RestTemplate restTemplate;
     
     // --------------------------------------------------------------------------------
     // 其他
@@ -81,7 +92,33 @@ public class BaseController {
         return result;
     }
 
+    public Boolean verifyPhone(String phoneNumber,String code,String userId){
+        Map<String,Object> data = new HashMap<>();
+        //data.put("module","MODULE_VERIF_CODE");
+        //data.put("senderId",senderId);
+        data.put("address", phoneNumber);
+        data.put("code",code);
+        String response = restPost("http://nc/api/checkedVerifyCode", data, userId);
+        ResponseCode responseCode = ResponseCode.instanceOf(response);
+        System.out.println(response);
+        if (!responseCode.getCode().equals("000000")) {
+            return false;
+        }
+        return true;
+    }
 
+    public String restPost(String url,Object data,String userId){
+        HttpHeaders headers = new HttpHeaders();
+        MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+        headers.setContentType(type);
+        headers.set("userId",userId);
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        HttpEntity<String> entity = new HttpEntity<String>(json,headers);
+        String response = restTemplate.postForObject(url, entity, String.class);
+        System.out.println(response);
+        return response;
+    }
 
 
     protected ResponseCode checkErrors(BindingResult result){

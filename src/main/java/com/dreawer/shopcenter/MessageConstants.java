@@ -336,6 +336,25 @@ public final class MessageConstants {
     /** 商品ID不能为空 */
     public static final String VAL_MERCHANDISE_ID_NOTEMPTY = "商品ID不能为空";
 
+    /** 标题不能为空 */
+    public static final String VAL_TITLE_NOTEMPTY = "标题不能为空";
+
+    /** 标题长度不正确 */
+    public static final String VAL_TITLE_LENGTH = "标题最大为20个字";
+
+    /** 跳转类型不能为空 */
+    public static final String VAL_TYPE_NOTEMPTY = "跳转类型不能为空";
+
+
+    /** 跳转ID不能为空 */
+    public static final String VAL_REDIRECTID_NOTEMPTY = "跳转ID不能为空";
+
+    /** 展示首页不能为空 */
+    public static final String VAL_DISPLAY_NOTEMPTY = "展示首页不能为空";
+
+    /** 跳转目标不能为空不能为空 */
+    public static final String VAL_REDIRECT_INFO_NOTEMPTY = "跳转目标不能为空";
+
     // --------------------------------------------------------------------------------
     // 警告信息
     // --------------------------------------------------------------------------------

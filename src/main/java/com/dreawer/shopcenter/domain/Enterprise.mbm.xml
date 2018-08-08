@@ -51,6 +51,12 @@
 		WHERE id=#{id}
 	</update>
 
+	<update id="updateMemberDisplay" parameterType="Map">
+		UPDATE aci_enterprise
+		SET mem_dis=#{type}
+		WHERE id=#{id}
+	</update>
+
 	
     <!-- ================================================================================== -->
 	<!-- SQL语句（查询）																		-->
@@ -92,10 +98,10 @@
 	<!-- 公用SQL定义																			-->
 	<!-- ================================================================================== -->
     
-    <!-- 地址基本信息字段 -->
+    <!-- 企业基本信息字段 -->
 	<sql id="enterpriseBasicFields">
 		id, app_id, app_ctg, name, sht_nam, logo ,intro, coordinate, province, city, area, detail, email,
-		phone, mobile, bot_img, bot_tim, posters, telephone,mer_cate,mem_por,gro_rule,url,cre_tim
+		phone, mobile, bot_img, bot_tim, posters, telephone,mer_cate,mem_por,mem_dis,gro_rule,url,cre_tim
 	</sql>
 	
     <!-- ================================================================================== -->
@@ -125,6 +131,7 @@
 		<result property="telephone" column="telephone" />
 		<result property="merchanCategories" column="mer_cate" />
 		<result property="memberRegisterPort" column="mem_por" />
+		<result property="memberDisplay" column="mem_dis" />
 		<result property="growthRules" column="gro_rule" />
 		<result property="url" column="url" />
 		<result property="createTime" column="cre_tim" />

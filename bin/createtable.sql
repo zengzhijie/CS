@@ -1,5 +1,22 @@
 USE test;
 SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS  `ret_adres`;
+CREATE TABLE `ret_adres` (
+  `id` char(32) NOT NULL COMMENT 'ID序列号',
+  `sto_id` char(32) NOT NULL COMMENT '店铺ID序列号',
+  `consignee` varchar(20) NOT NULL COMMENT '收货人',
+  `contact` varchar(100) NOT NULL COMMENT '联系方式',
+  `ship_adres` varchar(255) NOT NULL COMMENT '发货地址',
+  `adres` varchar(500) NOT NULL COMMENT '详细地址',
+  `postcode` varchar(32) NOT NULL COMMENT '邮编',
+  `is_def` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是默认地址（1-是、0-不是）',
+  `crer_id` char(32) NOT NULL COMMENT '创建者用户ID号',
+  `cre_tim` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updr_id` char(32) DEFAULT NULL COMMENT '更新者用户ID号',
+  `upd_tim` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='售后地址';
+
 DROP TABLE IF EXISTS  `aci_ent_cert`;
 CREATE TABLE `aci_ent_cert` (
   `id` char(32) NOT NULL COMMENT 'ID序列号',
@@ -68,6 +85,7 @@ CREATE TABLE `aci_enterprise` (
   `upd_tim` datetime DEFAULT NULL COMMENT '更新时间',
   `mer_cate` mediumtext COMMENT '商品类目列表',
   `mem_por` tinyint(1) DEFAULT '0' COMMENT '是否在商品详情显示会员注册通道\n',
+  `mem_dis` tinyint(1) DEFAULT '0' COMMENT '非会员是否显示会员权益',
   `gro_rule` char(32) DEFAULT NULL COMMENT '会员成长值规则JSON',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_ent_name` (`name`),

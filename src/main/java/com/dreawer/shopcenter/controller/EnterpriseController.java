@@ -5,13 +5,18 @@ import com.dreawer.responsecode.rcdt.Error;
 import com.dreawer.responsecode.rcdt.ResponseCode;
 import com.dreawer.responsecode.rcdt.Success;
 import com.dreawer.shopcenter.domain.BusinessLicense;
+import com.dreawer.shopcenter.domain.Carousel;
 import com.dreawer.shopcenter.domain.Certificate;
 import com.dreawer.shopcenter.domain.Enterprise;
 import com.dreawer.shopcenter.form.*;
 import com.dreawer.shopcenter.service.BusinessLicenseService;
+import com.dreawer.shopcenter.service.CarouselService;
 import com.dreawer.shopcenter.service.CertificateService;
 import com.dreawer.shopcenter.service.EnterpriseService;
 import com.google.gson.Gson;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,24 +41,26 @@ import java.util.regex.Pattern;
 import static com.dreawer.shopcenter.ControllerConstants.ENTERPRISE_CONTROLLER;
 import static com.dreawer.shopcenter.MessageConstants.*;
 import static com.dreawer.shopcenter.ServiceConstants.*;
+import static com.dreawer.shopcenter.consts.DomainConstants.STORE_ID;
 
 @Controller(ENTERPRISE_CONTROLLER)
 @RequestMapping("/enterprise")
 public class EnterpriseController extends BaseController{
 
+
+
+
 	@Autowired
-	RestTemplate restTemplate;
-
-
-	@Resource(name=ENTERPRISE_SERVICE)
 	private EnterpriseService enterpriseService; // 企业信息服务
 
-	@Resource(name=BUSSINESS_LICENCE_SERVICE)
+	@Autowired
 	private BusinessLicenseService businessLicenseService; // 媒体信息服务
-    
-    @Resource(name=CERTIFICATE_SERVICE)
+
+	@Autowired
 	private CertificateService certificateService; // 媒体信息服务
 
+	@Autowired
+	private CarouselService carouselService; //轮播图服务
     
     /**
      * 添加企业信息。
@@ -63,6 +70,7 @@ public class EnterpriseController extends BaseController{
      * @return 执行结果。
      */
     @RequestMapping(value="/add", method=RequestMethod.POST)
+    @ApiOperation(value = "添加企业信息")
 	public @ResponseBody
 	ResponseCode add(HttpServletRequest req,
 					 @RequestBody @Valid AddEnterpriseForm form, BindingResult result) {
@@ -207,6 +215,9 @@ public class EnterpriseController extends BaseController{
      * @param req 用户请求。
      * @return
      */
+    @ApiOperation(value = "查询企业信息详情")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id",value = "企业ID"),
+    @ApiImplicitParam(name = "appid",value = "小程序ID")})
     @RequestMapping(value="/detail", method=RequestMethod.GET)
    	public @ResponseBody ResponseCode detail(HttpServletRequest req) {
 
@@ -485,32 +496,120 @@ public class EnterpriseController extends BaseController{
 
 	}
 
-	public Boolean verifyPhone(String phoneNumber,String code,String userId){
-		Map<String,Object> data = new HashMap<>();
-		//data.put("module","MODULE_VERIF_CODE");
-		//data.put("senderId",senderId);
-		data.put("address", phoneNumber);
-		data.put("code",code);
-		String response = restPost("http://nc/api/checkedVerifyCode", data, userId);
-		ResponseCode responseCode = ResponseCode.instanceOf(response);
-		System.out.println(response);
-		if (!responseCode.getCode().equals("000000")) {
-			return false;
+	/**
+	 * 修改非会员是否显示会员权益
+	 */
+	@RequestMapping(value = "/editMemberDisplay",method = RequestMethod.POST)
+	public @ResponseBody ResponseCode editMemberDisplay(HttpServletRequest req, @RequestBody @Valid EditMerchanCategoriesForm form, BindingResult result){
+		if (result.hasErrors()) {
+			return checkErrors(result);
 		}
-		return true;
+		Boolean type = Boolean.valueOf(form.getType());
+		String storeId = form.getStoreId();
+		Enterprise enterprise = enterpriseService.findEnterpriseById(storeId);
+		if (enterprise==null){
+			return Error.DB("未查询到该企业");
+		}
+		enterpriseService.updateMemberDisplay(storeId,type);
+		return Success.SUCCESS(enterprise);
+
 	}
 
-	public String restPost(String url,Object data,String userId){
-		HttpHeaders headers = new HttpHeaders();
-		MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
-		headers.setContentType(type);
-		headers.set("userId",userId);
-		Gson gson = new Gson();
-		String json = gson.toJson(data);
-		HttpEntity<String> entity = new HttpEntity<String>(json,headers);
-		String response = restTemplate.postForObject(url, entity, String.class);
-		System.out.println(response);
-		return response;
+	/**
+	 * 添加轮播图。
+	 * @param req 用户请求。
+	 * @param form 添加信息表单。
+	 * @param result 表单校验结果。
+	 * @return 执行结果。
+	 */
+	@RequestMapping(value="/addCarousel", method=RequestMethod.POST)
+	public @ResponseBody
+	ResponseCode addCarousel(HttpServletRequest req,
+					 @RequestBody @Valid AddCarouselForm form, BindingResult result) {
+		if (result.hasErrors()) {
+			return checkErrors(result);
+		}
+		String userId = req.getHeader("userId");
+		Carousel carousel = new Carousel();
+		carousel.setDisplay(Boolean.valueOf(form.getDisplay()));
+		carousel.setImage(form.getImage());
+		carousel.setRedirectId(form.getRedirectId());
+		carousel.setRedirectInfo(form.getRedirectInfo());
+		carousel.setStoreId(form.getStoreId());
+		carousel.setTitle(form.getTitle());
+		carousel.setType(form.getType());
+		carousel.setUserId(userId);
+		carousel.setCreateTime(getNow());
+		carouselService.addCarousel(carousel);
+		return Success.SUCCESS(carousel);
+
 	}
+
+	/**
+	 * 修改轮播图。
+	 * @param req 用户请求。
+	 * @param form 添加信息表单。
+	 * @param result 表单校验结果。
+	 * @return 执行结果。
+	 */
+	@RequestMapping(value="/editCarousel", method=RequestMethod.POST)
+	public @ResponseBody
+	ResponseCode editCarousel(HttpServletRequest req,
+					 @RequestBody @Valid EditCarouselForm form, BindingResult result) {
+		if (result.hasErrors()) {
+			return checkErrors(result);
+		}
+		String userId = req.getHeader("userId");
+		Carousel carousel = carouselService.findCarouselById(form.getId());
+		if (carousel==null){
+			return Error.DB("轮播图不存在");
+		}
+		carousel.setDisplay(Boolean.valueOf(form.getDisplay()));
+		carousel.setImage(form.getImage());
+		carousel.setRedirectId(form.getRedirectId());
+		carousel.setRedirectInfo(form.getRedirectInfo());
+		carousel.setStoreId(form.getStoreId());
+		carousel.setTitle(form.getTitle());
+		carousel.setType(form.getType());
+		carousel.setUpdaterId(userId);
+		carousel.setUpdateTime(getNow());
+		carouselService.editCarousel(carousel);
+		return Success.SUCCESS(carousel);
+	}
+
+	/**
+	 * 删除轮播图。
+	 * @param req 用户请求。
+	 * @return 执行结果。
+	 */
+	@RequestMapping(value="/deleteCarousel", method=RequestMethod.GET)
+	public @ResponseBody
+	ResponseCode deleteCarousel(HttpServletRequest req,@RequestParam("ID")String id) {
+		Carousel carousel = carouselService.findCarouselById(id);
+		if (carousel==null){
+			return Error.DB("轮播图不存在");
+		}
+		carouselService.removeCarousel(carousel);
+		return Success.SUCCESS(carousel);
+	}
+
+	/**
+	 * 轮播图列表。
+	 * @param req 用户请求。
+	 * @return 执行结果。
+	 */
+	@RequestMapping(value="/listCarousel", method=RequestMethod.POST)
+	public @ResponseBody
+	ResponseCode listCarousel(HttpServletRequest req,@RequestParam("display")String display,
+							  @RequestParam(STORE_ID)String storeId) {
+
+		if (display==null){
+			return EntryError.EMPTY("查询类型不存在");
+		}
+
+		List<Carousel> list = carouselService.findAllCarouselByStoreId(storeId,display);
+		return Success.SUCCESS(list);
+	}
+
 
 }

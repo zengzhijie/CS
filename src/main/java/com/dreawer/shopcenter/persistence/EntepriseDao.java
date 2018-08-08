@@ -1,6 +1,7 @@
 package com.dreawer.shopcenter.persistence;
 
 import com.dreawer.persistence.mybatis.MyBatisBaseDao;
+import com.dreawer.shopcenter.domain.Carousel;
 import com.dreawer.shopcenter.domain.Enterprise;
 import org.springframework.stereotype.Repository;
 
@@ -77,5 +78,12 @@ public class EntepriseDao extends MyBatisBaseDao<Enterprise> {
 
     public Map<String,Object> findBootByAppid(String appid) {
     	return selectOne("findBootByAppid",appid);
+    }
+
+    public void updateMemberDisplay(Map<String,Object> map) {
+		update("updateMemberDisplay",map);
+    }
+
+    public void save(Carousel carousel) {
     }
 }

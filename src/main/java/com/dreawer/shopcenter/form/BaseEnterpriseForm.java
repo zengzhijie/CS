@@ -1,5 +1,7 @@
 package com.dreawer.shopcenter.form;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
@@ -7,23 +9,28 @@ import javax.validation.constraints.Pattern;
 
 import static com.dreawer.shopcenter.MessageConstants.*;
 
-
+@ApiModel(value = "基本企业表单")
 public class BaseEnterpriseForm {
-	
+
+	@ApiModelProperty(value = "企业名称")
     @Length(min=1, max=50, message=VAL_NAME_LENTH)
 	private String name = null;
-	
+
+	@ApiModelProperty(value = "简称")
     @Length(min=1, max=30, message=VAL_SHORTNAME_LENTH)
 	private String shortname = null;
-	
+
     @Length(min=1, max=200, message=VAL_LOGO_LENTH)
 	private String logo = null;
-	
+
+    @ApiModelProperty(value = "简介")
     @Length(min=1, max=400, message=VAL_INTRO_LENTH)
 	private String intro = null;
 
-	private String coordinate = null; // 位置坐标
+    @ApiModelProperty(value = "位置坐标")
+	private String coordinate = null;
 
+    @ApiModelProperty(value = "企业详情")
     @Length(min=1, max=500, message=VAL_ADDRESS_LENTH)
 	private String detail = null;
 	
@@ -45,6 +52,7 @@ public class BaseEnterpriseForm {
 			message=VAL_PHONE_WRONG)
 	private String telephone = null;
 
+	@ApiModelProperty(value = "官网URL")
 	@Length(min = 1,max = 200,message = VAL_OFFICIAL_SITE_LENGTH)
 	private String url = null; //官方网站
 

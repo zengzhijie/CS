@@ -1,5 +1,6 @@
 package com.dreawer.shopcenter.service;
 
+import com.dreawer.shopcenter.domain.Carousel;
 import com.dreawer.shopcenter.domain.Enterprise;
 import com.dreawer.shopcenter.persistence.EntepriseDao;
 import org.springframework.stereotype.Service;
@@ -98,5 +99,17 @@ public class EnterpriseService {
 	 */
     public Map<String,Object> findBootByAppid(String appid) {
     	return entepriseDao.findBootByAppid(appid);
+    }
+
+	/**
+	 * 非会员是否显示会员权益
+	 * @param storeId
+	 * @param type
+	 */
+	public void updateMemberDisplay(String storeId, Boolean type) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("id",storeId);
+		map.put("type",type);
+		entepriseDao.updateMemberDisplay(map);
     }
 }

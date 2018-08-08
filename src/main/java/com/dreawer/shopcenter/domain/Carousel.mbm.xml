@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dreawer.shopcenter.domain.Carousel">
+
+    <!-- ================================================================================== -->
+    <!-- SQL新增																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 添加一条地址 -->
+    <insert id="save" parameterType="Carousel">
+        INSERT INTO
+            aci_carsl(id,title,type,redr_id,redr_info,sequence,image,display,sto_id,crer_id,cre_tim)
+        VALUES (#{id},
+            #{title},
+            #{type},
+            #{redirectId},
+            #{redirectInfo},
+            #{sequence},
+            #{image},
+            #{display},
+            #{storeId},
+            #{userId},
+            #{createTime})
+    </insert>
+    <!-- ================================================================================== -->
+    <!-- SQL删除																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 删除一条轮播图 -->
+    <delete id="deleteCarousel" parameterType="Carousel">
+        DELETE FROM
+            aci_carsl
+        WHERE
+            id = #{id}
+    </delete>
+
+    <!-- ================================================================================== -->
+    <!-- SQL更新																				-->
+    <!-- ================================================================================== -->
+
+    <!-- 更新轮播图信息 -->
+    <update id="updateCarousel" parameterType="Carousel">
+        UPDATE
+            aci_carsl
+        SET
+            title = #{title},
+            type = #{type},
+            redr_id = #{redirectId},
+            image = #{image},
+            display = #{display},
+            redr_info = #{redirectInfo},
+            updr_id = #{updaterId},
+            upd_tim = #{updateTime}
+        WHERE
+            id = #{id}
+            AND sto_id = #{storeId}
+    </update>
+
+    <!-- ================================================================================== -->
+    <!-- SQL查询																				-->
+    <!-- ================================================================================== -->
+
+
+    <!-- 根据id查询轮播图 -->
+    <select id="findCarouselById" parameterType="Map" resultMap="CarouselResultMap">
+        SELECT
+        <include refid="basicFields"/>
+        FROM
+        aci_carsl
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAllCarouselByStoreId" parameterType="Map" resultMap="CarouselResultMap">
+        SELECT
+        <include refid="basicFields"/>
+        FROM
+        aci_carsl
+        WHERE sto_id = #{storeId}
+        AND display = #{display}
+        ORDER BY
+        <choose>
+            <when test="display !=null and display">
+                sequence
+            </when>
+            <when test="!display">
+                cre_tim
+                DESC
+            </when>
+        </choose>
+    </select>
+
+    <!-- 查询所有轮播图个数 -->
+    <select id="getCountByStoreId" parameterType="Map" resultType="Integer">
+        SELECT
+            count(1)
+        FROM
+            ret_adres
+        WHERE
+            sto_id = #{storeId}
+        AND display = #{display}
+    </select>
+    <!-- ================================================================================== -->
+    <!-- 公用SQL定义																			-->
+    <!-- ================================================================================== -->
+
+    <!-- 基本信息 -->
+    <sql id="basicFields">
+        id,title,type,redr_id,redr_info,sequence,image,display,sto_id,crer_id,cre_tim
+    </sql>
+
+    <!-- ================================================================================== -->
+    <!-- 结果集映射																				-->
+    <!-- ================================================================================== -->
+
+    <resultMap id="CarouselResultMap" type="Carousel">
+        <result property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="type" column="type" />
+        <result property="redirectId" column="redr_id" />
+        <result property="image" column="image" />
+        <result property="redirectInfo" column="redr_info" />
+        <result property="sequence" column="sequence" />
+        <result property="display" column="display" />
+        <result property="storeId" column="sto_id" />
+        <result property="userId" column="crer_id" />
+        <result property="createTime" column="cre_tim" />
+        <result property="updaterId" column="updr_id" />
+        <result property="updateTime" column="upd_tim" />
+    </resultMap>
+</mapper>

@@ -48,6 +48,8 @@ public class Enterprise extends BaseDomain {
 
 	private Boolean memberRegisterPort = true; //是否在商品详情显示会员注册通道
 
+	private Boolean memberDisplay = true; //非会员是否显示会员权益
+
 	private String growthRules = null; //会员成长值规则JSON
 
 	private String url = null;
@@ -262,5 +264,11 @@ public class Enterprise extends BaseDomain {
 		this.bootTime = bootTime;
 	}
 
+	public Boolean getMemberDisplay() {
+		return memberDisplay;
+	}
 
+	public void setMemberDisplay(Boolean memberDisplay) {
+		this.memberDisplay = memberDisplay;
+	}
 }
