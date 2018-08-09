@@ -7,6 +7,7 @@ import com.dreawer.shopcenter.domain.Address;
 import com.dreawer.shopcenter.form.AddAddressForm;
 import com.dreawer.shopcenter.form.EditAddressForm;
 import com.dreawer.shopcenter.service.AddressService;
+import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -48,6 +49,7 @@ public class AddressController extends BaseController {
      * @param form 表单数据
      * @return 返回结果
      */
+    @ApiOperation(value = "添加一条地址")
     @RequestMapping(value = REQ_ADD,method = RequestMethod.POST)
     public @ResponseBody
     ResponseCode add(HttpServletRequest req, @RequestBody @Valid AddAddressForm form, BindingResult result) {
@@ -89,6 +91,7 @@ public class AddressController extends BaseController {
      * @param form 表单数据
      * @return 返回结果
      */
+    @ApiOperation(value = "修改地址")
     @RequestMapping(value = REQ_EDIT,method = RequestMethod.POST)
     public @ResponseBody
     ResponseCode edit(HttpServletRequest req,@RequestBody @Valid EditAddressForm form, BindingResult result) {
@@ -126,6 +129,8 @@ public class AddressController extends BaseController {
      * @param id
      * @return
      */
+
+    @ApiOperation(value = "删除一条地址")
     @RequestMapping(value = REQ_DELETE,method = RequestMethod.GET)
     public @ResponseBody ResponseCode delete(HttpServletRequest req, @RequestParam(ID) String id,@RequestParam(STORE_ID)String storeId){
 //            // 校验是否是店铺管理员
@@ -150,6 +155,7 @@ public class AddressController extends BaseController {
      * @param req
      * @return
      */
+    @ApiOperation(value = "修改当前地址为默认并设置其他id为非默认")
     @RequestMapping(value = REQ_SET_DEFAULT,method = RequestMethod.GET)
     public @ResponseBody ResponseCode setDefault(HttpServletRequest req,@RequestParam(value = ID,required = true)String id,@RequestParam(STORE_ID)String storeId){
 //            // 校验是否是店铺管理员
@@ -170,6 +176,7 @@ public class AddressController extends BaseController {
      * @param req
      * @return
      */
+    @ApiOperation(value = "查询当前用户所有地址信息")
     @RequestMapping(value = REQ_VIEW,method = RequestMethod.GET)
     public @ResponseBody ResponseCode view(HttpServletRequest req,@RequestParam(STORE_ID)String storeId){
             // 校验是否是店铺管理员
@@ -187,6 +194,7 @@ public class AddressController extends BaseController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "根据id查询一条地址")
     @RequestMapping(value = REQ_ONE,method = RequestMethod.GET)
     public @ResponseBody ResponseCode findOne(HttpServletRequest req,@RequestParam(ID)String id,@RequestParam(STORE_ID)String storeId){
 

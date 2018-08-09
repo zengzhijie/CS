@@ -115,6 +115,7 @@ public class EnterpriseController extends BaseController{
      * @param result 校验表单结果。
      * @return 执行结果。
      */
+    @ApiOperation(value = "修改企业信息")
     @RequestMapping(value="/edit", method=RequestMethod.POST)
 	public @ResponseBody ResponseCode edit(HttpServletRequest req,
                                            @RequestBody @Valid EditEnterpriseForm form, BindingResult result) {
