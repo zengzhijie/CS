@@ -95,7 +95,7 @@
         SELECT
             count(1)
         FROM
-            ret_adres
+            aci_carsl
         WHERE
             sto_id = #{storeId}
         AND display = #{display}
