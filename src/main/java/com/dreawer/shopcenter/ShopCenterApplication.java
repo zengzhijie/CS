@@ -9,7 +9,6 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@EnableEurekaClient
 public class ShopCenterApplication {
 
     public static void main(String[] args) {

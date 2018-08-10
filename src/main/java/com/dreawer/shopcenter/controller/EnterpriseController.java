@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -560,7 +561,7 @@ public class EnterpriseController extends BaseController{
 		if (result.hasErrors()) {
 			return checkErrors(result);
 		}
-		String userId = req.getHeader("userId");
+		String userId = req.getHeader("userid");
 		Carousel carousel = carouselService.findCarouselById(form.getId());
 		if (carousel==null){
 			return Error.DB("轮播图不存在");
@@ -612,5 +613,17 @@ public class EnterpriseController extends BaseController{
 		return Success.SUCCESS(list);
 	}
 
+	/**
+	 * 轮播图排序。
+	 * @param req 用户请求。
+	 * @return 执行结果。
+	 */
+	@RequestMapping(value="/orderCarousel", method=RequestMethod.POST)
+	public @ResponseBody
+	ResponseCode orderCarousel(HttpServletRequest req, @RequestBody OrderCarouselForm form) {
+		String userid = req.getHeader("userid");
+		carouselService.updateSequenceById(form.getForm());
+		return Success.SUCCESS;
+	}
 
 }

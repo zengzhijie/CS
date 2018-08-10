@@ -1,6 +1,7 @@
 package com.dreawer.shopcenter.service;
 
 import com.dreawer.shopcenter.domain.Carousel;
+import com.dreawer.shopcenter.form.CarouselSequenceForm;
 import com.dreawer.shopcenter.persistence.CarouselDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,5 +78,13 @@ public class CarouselService {
      */
     public Integer getCountByStoreId(String storeId,String display) {
         return carouselDao.getCountByStoreId(storeId,display);
+    }
+
+    /**
+     * 更新排序
+     * @param form
+     */
+    public void updateSequenceById(List<CarouselSequenceForm> form) {
+        carouselDao.updateSequenceById(form);
     }
 }

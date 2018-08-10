@@ -3,6 +3,8 @@ package com.dreawer.shopcenter.persistence;
 import com.dreawer.persistence.mybatis.MyBatisBaseDao;
 import com.dreawer.shopcenter.domain.Carousel;
 import com.dreawer.shopcenter.domain.Carousel;
+import com.dreawer.shopcenter.form.CarouselSequenceForm;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -42,7 +44,7 @@ public class CarouselDao extends MyBatisBaseDao<Carousel> {
     public List<Carousel> findAllCarouselByStoreId(String storeId, String display) {
         Map<String,Object> param = new HashMap<>();
         param.put("storeId",storeId);
-        param.put("display",display);
+        param.put("display",Boolean.valueOf(display));
         return selectList("findAllCarouselByStoreId",param);
     }
 
@@ -51,5 +53,9 @@ public class CarouselDao extends MyBatisBaseDao<Carousel> {
         param.put("storeId",storeId);
         param.put("display",display);
         return selectOne("getCountByStoreId",param);
+    }
+
+    public void updateSequenceById(List<CarouselSequenceForm> form) {
+         update("updateSequenceById",form);
     }
 }
