@@ -7,6 +7,7 @@ import com.dreawer.shopcenter.form.CarouselSequenceForm;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,13 @@ public class CarouselDao extends MyBatisBaseDao<Carousel> {
     }
 
     public void updateSequenceById(List<CarouselSequenceForm> form) {
-         update("updateSequenceById",form);
+        List<Carousel> list = new ArrayList<>();
+        for (CarouselSequenceForm carouselSequenceForm : form) {
+            Carousel node = new Carousel();
+            node.setSequence(carouselSequenceForm.getSequence());
+            node.setId(carouselSequenceForm.getId());
+            list.add(node);
+        }
+         updateBatch("updateSequenceById",list);
     }
 }
