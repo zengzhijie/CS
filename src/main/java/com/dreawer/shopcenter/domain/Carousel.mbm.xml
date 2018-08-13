@@ -58,7 +58,7 @@
     </update>
 
     <update id="updateSequenceById" parameterType="List">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+        <foreach collection="list" item="item" index="index" separator=";">
             update aci_carsl
             <set>
                 sequence=#{item.sequence}

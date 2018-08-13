@@ -57,39 +57,25 @@ CREATE TABLE `aci_ent_lic` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='营业执照信息表';
 
-DROP TABLE IF EXISTS  `aci_enterprise`;
-CREATE TABLE `aci_enterprise` (
+DROP TABLE IF EXISTS  `aci_carsl`;
+CREATE TABLE `aci_carsl` (
   `id` char(32) NOT NULL COMMENT 'ID序列号',
-  `app_id` char(32) NOT NULL COMMENT '应用id',
-  `app_ctg` char(32) NOT NULL COMMENT '应用分类',
-  `name` char(50) NOT NULL COMMENT '企业全称',
-  `sht_nam` char(32) NOT NULL COMMENT '企业简称',
-  `logo` varchar(255) DEFAULT NULL COMMENT '企业logo',
-  `intro` varchar(255) DEFAULT NULL COMMENT '介绍',
-  `coordinate` varchar(64) DEFAULT NULL COMMENT '位置坐标',
-  `province` char(32) DEFAULT NULL COMMENT '省',
-  `city` char(32) DEFAULT NULL COMMENT '市',
-  `area` char(32) DEFAULT NULL COMMENT '区',
-  `detail` varchar(255) DEFAULT NULL COMMENT '详细地址',
-  `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
-  `phone` varchar(20) DEFAULT NULL COMMENT '座机',
-  `mobile` varchar(20) DEFAULT NULL COMMENT '移动电话',
-  `bot_img` varchar(255) DEFAULT NULL COMMENT '启动图像',
-  `bot_tim` int(11) DEFAULT NULL COMMENT '启动时间',
-  `posters` varchar(1300) DEFAULT NULL COMMENT '海报列表',
-  `telephone` varchar(11) DEFAULT NULL COMMENT '联系电话',
-  `url` varchar(255) DEFAULT NULL COMMENT '官方网站',
+  `title` varchar(50) NOT NULL COMMENT '标题',
+  `type` char(25) NOT NULL COMMENT '类型',
+  `redr_id` varchar(255) DEFAULT NULL COMMENT '跳转URL',
+  `image` varchar(255) DEFAULT NULL COMMENT '跳转图片',
+  `redr_info` char(32) NOT NULL COMMENT '跳转目标',
+  `sequence` int DEFAULT 0 COMMENT '顺序',
+  `display` tinyint(1) DEFAULT '0' COMMENT '是否上架',
+  `sto_id` char(32) NOT NULL COMMENT '店铺ID',
   `cre_tim` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `crer_id` char(32) DEFAULT NULL COMMENT '创建者用户ID号',
   `updr_id` char(32) DEFAULT NULL COMMENT '更新者用户ID号',
   `upd_tim` datetime DEFAULT NULL COMMENT '更新时间',
-  `mer_cate` mediumtext COMMENT '商品类目列表',
-  `mem_por` tinyint(1) DEFAULT '0' COMMENT '是否在商品详情显示会员注册通道\n',
-  `mem_dis` tinyint(1) DEFAULT '0' COMMENT '非会员是否显示会员权益',
-  `gro_rule` char(32) DEFAULT NULL COMMENT '会员成长值规则JSON',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_ent_name` (`name`),
-  UNIQUE KEY `idx_ent_app_id` (`app_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='企业信息表';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='轮播图表';
+
+
+
 
 SET FOREIGN_KEY_CHECKS = 1;
