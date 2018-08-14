@@ -35,7 +35,7 @@
 		SET	name=#{name}, sht_nam=#{shortname}, logo=#{logo},intro=#{intro}, coordinate=#{coordinate},
 			province=#{province}, city=#{city}, area=#{area}, detail=#{detail}, email=#{email}, phone=#{phone}, 
 			mobile=#{mobile}, bot_img=#{bootImage}, bot_tim=#{bootTime}, posters=#{posters}, telephone=#{telephone}, 
-			url=#{url},updr_id=#{updaterId}, upd_tim=#{updateTime}
+			url=#{url}, upd_tim=#{updateTime}
 		WHERE id = #{id}
 	</update>
 
