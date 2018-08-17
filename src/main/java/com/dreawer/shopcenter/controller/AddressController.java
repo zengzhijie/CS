@@ -54,7 +54,7 @@ public class AddressController extends BaseController {
     public @ResponseBody
     ResponseCode add(HttpServletRequest req, @RequestBody @Valid AddAddressForm form, BindingResult result) {
 
-            String userId = req.getHeader("userId");
+            String userId = req.getHeader("userid");
             // 校验是否是店铺管理员
 //            if(!isAppAdmin(req, form.getStoreId())){
 //                return new JSONResponse(false, new Error(MSG_NOT_ADMIN));
@@ -96,7 +96,7 @@ public class AddressController extends BaseController {
     public @ResponseBody
     ResponseCode edit(HttpServletRequest req,@RequestBody @Valid EditAddressForm form, BindingResult result) {
 
-            String userId = req.getHeader("userId");
+            String userId = req.getHeader("userid");
             // 校验是否是店铺管理员
 //            if(!isAppAdmin(req, form.getStoreId())){
 //                return new JSONResponse(false, new Error(MSG_NOT_ADMIN));

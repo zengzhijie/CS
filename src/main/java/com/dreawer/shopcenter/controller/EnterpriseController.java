@@ -78,7 +78,7 @@ public class EnterpriseController extends BaseController{
     	if (result.hasErrors()) {
             return checkErrors(result);
         }
-			String userId = req.getHeader("userId");
+			String userId = req.getHeader("userid");
 			String appid = form.getAppid();
 	    	if(StringUtils.isBlank(appid)){
 		    	return Error.EXT_RESPONSE(MSG_APP_NULL);
@@ -124,7 +124,7 @@ public class EnterpriseController extends BaseController{
             return checkErrors(result);
         }
 
-			String userId = req.getHeader("userId");
+			String userId = req.getHeader("userid");
 			Enterprise ep = enterpriseService.findEnterpriseById(form.getId());
 			if(ep==null){
 				return Error.DB(MSG_ENTERPRISE_NULL);
@@ -262,7 +262,7 @@ public class EnterpriseController extends BaseController{
         if (result.hasErrors()) {
             return checkErrors(result);
         }
-			String userId = req.getHeader("userId");
+			String userId = req.getHeader("userid");
 			Enterprise enterprise = enterpriseService.findEnterpriseById(form.getEnterpriseId());
             if(enterprise==null){
     	    	return Error.DB("未查询到该企业");
@@ -302,7 +302,7 @@ public class EnterpriseController extends BaseController{
         if (result.hasErrors()) {
             return checkErrors(result);
         }
-			String userId = req.getHeader("userId");
+			String userId = req.getHeader("userid");
 			BusinessLicense businessLicense = businessLicenseService.findBusinessLicenseById(form.getId());
             if(businessLicense==null){
     	    	return Error.DB(MSG_LICENSE_NULL);
@@ -372,7 +372,7 @@ public class EnterpriseController extends BaseController{
         	return checkErrors(result);
         }
 
-			String userId = req.getHeader("userId");
+			String userId = req.getHeader("userid");
 			Enterprise enterprise = enterpriseService.findEnterpriseById(form.getEnterpriseId());
             if(enterprise==null){
     	    	return Error.DB(MSG_ENTERPRISE_NULL);
@@ -404,7 +404,7 @@ public class EnterpriseController extends BaseController{
         	return checkErrors(result);
         }
 
-			String userId = req.getHeader("userId");
+			String userId = req.getHeader("userid");
             Certificate certificate = certificateService.findCertificateById(form.getId());
             if(certificate==null){
     	    	return Error.DB(MSG_CERTIFICATE_NULL);
@@ -531,7 +531,7 @@ public class EnterpriseController extends BaseController{
 		if (result.hasErrors()) {
 			return checkErrors(result);
 		}
-		String userId = req.getHeader("userId");
+		String userId = req.getHeader("userid");
 		Carousel carousel = new Carousel();
 		carousel.setDisplay(Boolean.valueOf(form.getDisplay()));
 		carousel.setImage(form.getImage());
@@ -626,4 +626,24 @@ public class EnterpriseController extends BaseController{
 		return Success.SUCCESS;
 	}
 
+    /**
+     * 查询企业详情信息
+     * @param req
+     * @return
+     */
+	@PostMapping("/fullDetail")
+    public @ResponseBody ResponseCode fullEnterpriseDetail(HttpServletRequest req){
+        String id = req.getHeader("appid");
+        if(id==null) {
+            EntryError.EMPTY("appid");
+        }
+        Enterprise enterprise = enterpriseService.findEnterpriseById(id);
+        BusinessLicense businessLicense = businessLicenseService.findbusinessLicense(id);
+        List<Certificate> certificates = certificateService.findCertificates(id);
+        Map<String,Object> param = new HashMap<>();
+        param.put("enterprise",enterprise);
+        param.put("businessLicense",businessLicense);
+        param.put("certificates",certificates);
+        return Success.SUCCESS(param);
+    }
 }
