@@ -127,7 +127,7 @@ public final class MessageConstants {
     public static final String VAL_CERT_NAME_LENGTH = "许可证名称由1-50个字符或者1-25个汉字组成";
 
     /** 验证信息（营业执照图片长度有误） */
-    public static final String VAL_CERT_IMAGE_LENGTH = "营业执照图片URL长度不正确";
+    public static final String VAL_CERT_IMAGE_LENGTH = "许可证URL长度不正确";
 
     /** 验证信息（许可证编号长度有误） */
     public static final String VAL_CERT_NUM_LENGTH = "许可证编号由1-60个字符组成";
@@ -137,6 +137,9 @@ public final class MessageConstants {
 
     /** 验证信息（证件类型不能为空） */
     public static final String VAL_CERT_TYPE_NOTEMPTY = "证件类型不能为空";
+
+    /** 验证信息（证件类型长度有误） */
+    public static final String VAL_CERT_TYPE_LENGTH = "证件类型长度有误";
 
     /** 对象ID号为空 */
     public static final String VAL_OBJECT_ID_NOT_EMPTY = "未指定对象ID号，请检查并重试";
@@ -326,6 +329,9 @@ public final class MessageConstants {
 
     /** 证件信息不存在 */
     public static final String MSG_CERTIFICATE_NULL = "证件信息不存在";
+
+    /** 证件类型不存在 */
+    public static final String MSG_CERTIFICATE_TYPE_NULL = "证件类型不存在";
 
     /** 播放时长不为空 */
     public static final String MSG_BOOT_TIME_NULL = "播放时长不能为空";

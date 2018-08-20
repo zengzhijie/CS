@@ -4,32 +4,20 @@ import com.dreawer.responsecode.rcdt.EntryError;
 import com.dreawer.responsecode.rcdt.Error;
 import com.dreawer.responsecode.rcdt.ResponseCode;
 import com.dreawer.responsecode.rcdt.Success;
-import com.dreawer.shopcenter.domain.BusinessLicense;
 import com.dreawer.shopcenter.domain.Carousel;
-import com.dreawer.shopcenter.domain.Certificate;
 import com.dreawer.shopcenter.domain.Enterprise;
 import com.dreawer.shopcenter.form.*;
-import com.dreawer.shopcenter.service.BusinessLicenseService;
 import com.dreawer.shopcenter.service.CarouselService;
-import com.dreawer.shopcenter.service.CertificateService;
 import com.dreawer.shopcenter.service.EnterpriseService;
-import com.google.gson.Gson;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Timestamp;
@@ -41,7 +29,6 @@ import java.util.regex.Pattern;
 
 import static com.dreawer.shopcenter.ControllerConstants.ENTERPRISE_CONTROLLER;
 import static com.dreawer.shopcenter.MessageConstants.*;
-import static com.dreawer.shopcenter.ServiceConstants.*;
 import static com.dreawer.shopcenter.consts.DomainConstants.STORE_ID;
 
 @Controller(ENTERPRISE_CONTROLLER)
@@ -54,11 +41,6 @@ public class EnterpriseController extends BaseController{
 	@Autowired
 	private EnterpriseService enterpriseService; // 企业信息服务
 
-	@Autowired
-	private BusinessLicenseService businessLicenseService; // 媒体信息服务
-
-	@Autowired
-	private CertificateService certificateService; // 媒体信息服务
 
 	@Autowired
 	private CarouselService carouselService; //轮播图服务
@@ -95,14 +77,29 @@ public class EnterpriseController extends BaseController{
 	    	if(enterprise!=null){
 				return  Error.DB(MSG_ENTERPRISE_NAME_EXISTS);
 	    	}
+
 	    	Enterprise ep = new Enterprise();
 	    	ep.setId(appid);
 	    	ep.setAppid(form.getAppid());
 	    	ep.setCategory("media");
 	    	ep.setName(form.getName());
-	    	ep.setShortname(form.getShortname());
+	    	ep.setAppName(form.getAppName());
 	    	ep.setLogo(form.getLogo());
 	    	ep.setIntro(form.getIntro());
+
+	    	//添加特许证件和营业执照
+            if (!StringUtils.isBlank(form.getBusinessLicense())){
+                ep.setBusinessLicense(form.getBusinessLicense());
+            }
+            if (!StringUtils.isBlank(form.getCertificate())&&StringUtils.isBlank(form.getCertType())){
+                return EntryError.EMPTY(MSG_CERTIFICATE_TYPE_NULL);
+            }
+
+            if (!StringUtils.isBlank(form.getCertificate())){
+                ep.setCertificate(form.getCertificate());
+                ep.setCertType(form.getCertType());
+            }
+
 	    	ep.setUserId(userId);
 	    	enterpriseService.save(ep);
 			return Success.SUCCESS(ep);
@@ -137,8 +134,8 @@ public class EnterpriseController extends BaseController{
 		    	}
 				ep.setName(form.getName());
 			}
-			if(StringUtils.isNotBlank(form.getShortname())){
-		    	ep.setShortname(form.getShortname());
+			if(StringUtils.isNotBlank(form.getAppName())){
+		    	ep.setAppName(form.getAppName());
 			}
 			if(StringUtils.isNotBlank(form.getLogo())){
 		    	ep.setLogo(form.getLogo());
@@ -206,6 +203,20 @@ public class EnterpriseController extends BaseController{
 	    	if(StringUtils.isNotBlank(form.getUrl())){
 	    		ep.setUrl(form.getUrl());
 			}
+
+        //添加特许证件和营业执照
+        if (!StringUtils.isBlank(form.getBusinessLicense())){
+            ep.setBusinessLicense(form.getBusinessLicense());
+        }
+        if (!StringUtils.isBlank(form.getCertificate())&&StringUtils.isBlank(form.getCertType())){
+            return EntryError.EMPTY(MSG_CERTIFICATE_TYPE_NULL);
+        }
+
+        if (!StringUtils.isBlank(form.getCertificate())){
+            ep.setCertificate(form.getCertificate());
+            ep.setCertType(form.getCertType());
+        }
+
 	    	ep.setUserId(userId);
 	    	ep.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             enterpriseService.updateBasic(ep);
@@ -235,192 +246,7 @@ public class EnterpriseController extends BaseController{
    			}
    			return Success.SUCCESS(ep);
    	}
-    
-    /**
-     * 查询营业执照信息。
-     * @param req 用户请求
-     * @author lyan
-     * @since 1.0
-     */
-    @RequestMapping(value = "/businessLicense", method = RequestMethod.GET)
-    public @ResponseBody ResponseCode getBusLic(HttpServletRequest req,
-    		@RequestParam("enterpriseId") String enterpriseId){
-            BusinessLicense businessLicense = businessLicenseService.findbusinessLicense(enterpriseId);
-            return Success.SUCCESS(businessLicense);
-    }
 
-    /**
-     * 添加营业执照。
-     * @param req 用户请求。
-     * @param form 添加执照表单。
-     * @param result 表单校验结果。
-     * @return
-     */
-    @RequestMapping(value = "/addBusinessLicense", method = RequestMethod.POST)
-    public @ResponseBody ResponseCode addBusinessLicense(HttpServletRequest req,
-                                                         @RequestBody @Valid AddBusinessLicenseForm form, BindingResult result){
-        if (result.hasErrors()) {
-            return checkErrors(result);
-        }
-			String userId = req.getHeader("userid");
-			Enterprise enterprise = enterpriseService.findEnterpriseById(form.getEnterpriseId());
-            if(enterprise==null){
-    	    	return Error.DB("未查询到该企业");
-            }
-            BusinessLicense bl = businessLicenseService.findbusinessLicense(form.getEnterpriseId());
-            if(bl!=null){
-    	    	return Error.DB(MSG_LICENSE_EXISTS);
-            }
-            BusinessLicense businessLicense = new BusinessLicense();
-            businessLicense.setName(form.getName());
-            businessLicense.setImage(form.getImage());
-            businessLicense.setBusinessScope(form.getBusinessScope());
-            if(form.getValidityType()!=null){
-                businessLicense.setValidityType(form.getValidityType());
-            }
-            if(form.getValidity()!=null){
-                businessLicense.setValidity(form.getValidity());
-            }
-            businessLicense.setLegalRepresentative(form.getLegalRepresentative());
-            businessLicense.setRegistrationNumber(form.getRegistrationNumber());
-            businessLicense.setAddress(form.getAddress());
-        	businessLicense.setEnterpriseId(form.getEnterpriseId());
-        	businessLicense.setUserId(userId);
-        	businessLicenseService.addBusinessLicense(businessLicense);
-            return Success.SUCCESS(businessLicense);
-    }
-        
-    /**
-     * 修改营业执照信息。
-     * @param req 用户请求
-     * @author lyan
-     * @since 1.0
-     */
-    @RequestMapping(value = "/editBusinessLicense", method = RequestMethod.POST)
-    public @ResponseBody ResponseCode editBusinessLicense(HttpServletRequest req,
-                                                          @RequestBody @Valid EditBusinessLicenseForm form, BindingResult result){
-        if (result.hasErrors()) {
-            return checkErrors(result);
-        }
-			String userId = req.getHeader("userid");
-			BusinessLicense businessLicense = businessLicenseService.findBusinessLicenseById(form.getId());
-            if(businessLicense==null){
-    	    	return Error.DB(MSG_LICENSE_NULL);
-            }
-            businessLicense.setName(form.getName());
-            businessLicense.setImage(form.getImage());
-            businessLicense.setBusinessScope(form.getBusinessScope());
-            if(form.getValidityType()!=null){
-                businessLicense.setValidityType(form.getValidityType());
-            }
-            if(form.getValidity()!=null){
-                businessLicense.setValidity(form.getValidity());
-            }
-            businessLicense.setLegalRepresentative(form.getLegalRepresentative());
-            businessLicense.setRegistrationNumber(form.getRegistrationNumber());
-            businessLicense.setAddress(form.getAddress());
-        	businessLicense.setUpdaterId(userId);
-            businessLicense.setUpdateTime(getNow());
-            businessLicenseService.updateBusinessLicense(businessLicense);
-            return Success.SUCCESS(businessLicense);
-
-    }
-
-    /**
-     * 查询其他证件信息。
-     * @param req 用户请求
-     * @author lyan
-     * @since 1.0
-     */
-    @RequestMapping(value = "/certificate/list", method = RequestMethod.GET)
-    public @ResponseBody ResponseCode getCertificate(HttpServletRequest req){
-        	String enterpriseId = req.getParameter("enterpriseId");
-        	if(StringUtils.isBlank(enterpriseId)){
-    	    	return Error.DB(VAL_ENTERPRISE_ID_EMPTY);
-        	}
-            List<Certificate> certificates = certificateService.findCertificates(enterpriseId);
-            return Success.SUCCESS(certificates);
-    }
-
-    /**
-     * 查询特殊证件详情。
-     * @param req 用户请求。
-     * @return
-     */
-    @RequestMapping(value = "/certificate/detail", method = RequestMethod.GET)
-    public @ResponseBody ResponseCode certificateDetail(HttpServletRequest req){
-
-        	String id = req.getParameter("id");
-        	if(StringUtils.isBlank(id)){
-    	    	return EntryError.EMPTY(VAL_ENTERPRISE_ID_EMPTY);
-        	}
-            Certificate certificate = certificateService.findCertificateById(id);
-            return Success.SUCCESS(certificate);
-    }
-
-    /**
-     * 添加特殊证件信息。
-     * @param req 用户请求。
-     * @param form 添加证件表单。
-     * @param result 表单校验结果。
-     * @return
-     */
-    @RequestMapping(value = "/addCertificate", method = RequestMethod.POST)
-    public @ResponseBody ResponseCode addCertificate(HttpServletRequest req,
-    		@RequestBody @Valid AddCertificateForm form, BindingResult result){
-        if(result.hasErrors()){
-        	return checkErrors(result);
-        }
-
-			String userId = req.getHeader("userid");
-			Enterprise enterprise = enterpriseService.findEnterpriseById(form.getEnterpriseId());
-            if(enterprise==null){
-    	    	return Error.DB(MSG_ENTERPRISE_NULL);
-            }
-            Certificate certificate = new Certificate();
-            certificate.setEnterpriseId(form.getEnterpriseId());
-            certificate.setName(form.getName());
-            certificate.setImage(form.getImage());
-            certificate.setNumber(form.getNumber());
-            certificate.setValidityType(form.getValidityType());
-            certificate.setValidity(form.getValidity());
-            certificate.setAddress(form.getAddress());
-        	certificate.setUserId(userId);
-        	certificateService.addCertificate(certificate);
-            return Success.SUCCESS(certificate);
-
-    }
-    
-    /**
-     * 编辑其他营业证件信息。
-     * @param req 用户请求
-     * @author lyan
-     * @since 1.0
-     */
-    @RequestMapping(value = "/editCertificate", method = RequestMethod.POST)
-    public @ResponseBody ResponseCode editCertificate(HttpServletRequest req,
-    		@RequestBody @Valid EditCertificateForm form, BindingResult result){
-        if(result.hasErrors()){
-        	return checkErrors(result);
-        }
-
-			String userId = req.getHeader("userid");
-            Certificate certificate = certificateService.findCertificateById(form.getId());
-            if(certificate==null){
-    	    	return Error.DB(MSG_CERTIFICATE_NULL);
-            }
-            certificate.setName(form.getName());
-            certificate.setImage(form.getImage());
-            certificate.setNumber(form.getNumber());
-            certificate.setValidityType(form.getValidityType());
-            certificate.setValidity(form.getValidity());
-            certificate.setAddress(form.getAddress());
-        	certificate.setUpdaterId(userId);
-            certificate.setUpdateTime(getNow());
-        	certificateService.updateCertificate(certificate);
-            return Success.SUCCESS(certificate);
-
-    }
 
     /**
      * 通过appid获取开屏海报
@@ -626,24 +452,7 @@ public class EnterpriseController extends BaseController{
 		return Success.SUCCESS;
 	}
 
-    /**
-     * 查询企业详情信息
-     * @param req
-     * @return
-     */
-	@PostMapping("/fullDetail")
-    public @ResponseBody ResponseCode fullEnterpriseDetail(HttpServletRequest req){
-        String id = req.getHeader("appid");
-        if(id==null) {
-            EntryError.EMPTY("appid");
-        }
-        Enterprise enterprise = enterpriseService.findEnterpriseById(id);
-        BusinessLicense businessLicense = businessLicenseService.findbusinessLicense(id);
-        List<Certificate> certificates = certificateService.findCertificates(id);
-        Map<String,Object> param = new HashMap<>();
-        param.put("enterprise",enterprise);
-        param.put("businessLicense",businessLicense);
-        param.put("certificates",certificates);
-        return Success.SUCCESS(param);
-    }
+
+
+
 }

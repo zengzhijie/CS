@@ -55,10 +55,7 @@ public class AddressController extends BaseController {
     ResponseCode add(HttpServletRequest req, @RequestBody @Valid AddAddressForm form, BindingResult result) {
 
             String userId = req.getHeader("userid");
-            // 校验是否是店铺管理员
-//            if(!isAppAdmin(req, form.getStoreId())){
-//                return new JSONResponse(false, new Error(MSG_NOT_ADMIN));
-//            }
+
             if (result.hasErrors()) {
                 return checkErrors(result);
             }
@@ -97,10 +94,7 @@ public class AddressController extends BaseController {
     ResponseCode edit(HttpServletRequest req,@RequestBody @Valid EditAddressForm form, BindingResult result) {
 
             String userId = req.getHeader("userid");
-            // 校验是否是店铺管理员
-//            if(!isAppAdmin(req, form.getStoreId())){
-//                return new JSONResponse(false, new Error(MSG_NOT_ADMIN));
-//            }
+
             if (result.hasErrors()) {
                 return checkErrors(result);
             }
@@ -133,10 +127,7 @@ public class AddressController extends BaseController {
     @ApiOperation(value = "删除一条地址")
     @RequestMapping(value = REQ_DELETE,method = RequestMethod.GET)
     public @ResponseBody ResponseCode delete(HttpServletRequest req, @RequestParam(ID) String id,@RequestParam(STORE_ID)String storeId){
-//            // 校验是否是店铺管理员
-//            if(!isAppAdmin(req, storeId)){
-//                return new JSONResponse(false, new Error(MSG_NOT_ADMIN));
-//            }
+
             Address address = addressService.findAddressById(id);
             if (address==null){
                 return Error.DB(MSG_ADDRESS_NOTFOUND);
@@ -158,10 +149,7 @@ public class AddressController extends BaseController {
     @ApiOperation(value = "修改当前地址为默认并设置其他id为非默认")
     @RequestMapping(value = REQ_SET_DEFAULT,method = RequestMethod.GET)
     public @ResponseBody ResponseCode setDefault(HttpServletRequest req,@RequestParam(value = ID,required = true)String id,@RequestParam(STORE_ID)String storeId){
-//            // 校验是否是店铺管理员
-//            if(!isAppAdmin(req, storeId)){
-//                return new JSONResponse(false, new Error(MSG_NOT_ADMIN));
-//            }
+
             Address address = addressService.findAddressById(id);
             if (address==null){
                 return Error.DB(MSG_ADDRESS_NOTFOUND);
@@ -179,10 +167,7 @@ public class AddressController extends BaseController {
     @ApiOperation(value = "查询当前用户所有地址信息")
     @RequestMapping(value = REQ_VIEW,method = RequestMethod.GET)
     public @ResponseBody ResponseCode view(HttpServletRequest req,@RequestParam(STORE_ID)String storeId){
-            // 校验是否是店铺管理员
-//            if(!isAppAdmin(req, storeId)){
-//                return new JSONResponse(false, new Error(MSG_NOT_ADMIN));
-//            }
+
             List<Address> list = addressService.findAllAddressByStoreId(storeId);
             return Success.SUCCESS(list);
 
@@ -198,10 +183,7 @@ public class AddressController extends BaseController {
     @RequestMapping(value = REQ_ONE,method = RequestMethod.GET)
     public @ResponseBody ResponseCode findOne(HttpServletRequest req,@RequestParam(ID)String id,@RequestParam(STORE_ID)String storeId){
 
-            // 校验是否是店铺管理员
-//            if(!isAppAdmin(req, storeId)){
-//                return new JSONResponse(false, new Error(MSG_NOT_ADMIN));
-//            }
+
             Address address = addressService.findAddressById(id);
             if (address==null){
                 return Error.DB(MSG_ADDRESS_NOTFOUND);

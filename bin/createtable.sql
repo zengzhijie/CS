@@ -75,13 +75,17 @@ CREATE TABLE `aci_carsl` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='轮播图表';
 
+DROP TABLE IF EXISTS  `aci_enterprise`;
 CREATE TABLE `aci_enterprise` (
   `id` char(32) NOT NULL COMMENT 'ID序列号',
   `app_id` char(32) NOT NULL COMMENT '应用id',
   `app_ctg` char(32) NOT NULL COMMENT '应用分类',
   `name` char(50) NOT NULL COMMENT '企业全称',
-  `sht_nam` char(32) NOT NULL COMMENT '企业简称',
+  `app_nam` char(32) NOT NULL COMMENT '小程序名称',
   `logo` varchar(255) DEFAULT NULL COMMENT '企业logo',
+  `bus_lic` varchar(255) DEFAULT NULL COMMENT '营业执照URL',
+  `cert` varchar(255) DEFAULT NULL COMMENT '特许证件',
+  `cert_type` varchar(255) DEFAULT NULL COMMENT '特许证件类型',
   `intro` varchar(255) DEFAULT NULL COMMENT '介绍',
   `coordinate` varchar(64) DEFAULT NULL COMMENT '位置坐标',
   `province` char(32) DEFAULT NULL COMMENT '省',

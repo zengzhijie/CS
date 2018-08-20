@@ -15,8 +15,14 @@ public class Enterprise extends BaseDomain {
 	private String category = null;
 
 	private String name = null;
-	
-	private String shortname = null;
+
+	private String appName = null;
+
+    private String businessLicense = null;
+
+    private String certificate = null;
+
+    private String certType = null;
 	
 	private String logo = null;
 	

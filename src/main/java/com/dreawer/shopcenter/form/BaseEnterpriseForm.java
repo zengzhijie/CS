@@ -2,6 +2,7 @@ package com.dreawer.shopcenter.form;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
@@ -10,15 +11,16 @@ import javax.validation.constraints.Pattern;
 import static com.dreawer.shopcenter.MessageConstants.*;
 
 @ApiModel(value = "基本企业表单")
+@Data
 public class BaseEnterpriseForm {
 
 	@ApiModelProperty(value = "企业名称")
     @Length(min=1, max=50, message=VAL_NAME_LENTH)
 	private String name = null;
 
-	@ApiModelProperty(value = "简称")
+	@ApiModelProperty(value = "小程序名称")
     @Length(min=1, max=30, message=VAL_SHORTNAME_LENTH)
-	private String shortname = null;
+	private String appName = null;
 
     @Length(min=1, max=200, message=VAL_LOGO_LENTH)
 	private String logo = null;
@@ -56,99 +58,17 @@ public class BaseEnterpriseForm {
 	@Length(min = 1,max = 200,message = VAL_OFFICIAL_SITE_LENGTH)
 	private String url = null; //官方网站
 
-	public String getUrl() {
-		return url;
-	}
+	@ApiModelProperty(value = "营业执照URL")
+	@Length(min = 1,max = 255,message = VAL_BUS_LIC_IMG_LENGTH)
+	private String businessLicense = null;
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+	@ApiModelProperty(value = "特许证件URL")
+	@Length(min = 1,max = 255,message = VAL_CERT_IMAGE_LENGTH)
+	private String certificate = null;
 
-	public String getName() {
-		return name;
-	}
+	@ApiModelProperty(value = "特许证件类型")
+	@Length(min = 1,max = 50,message = VAL_CERT_TYPE_LENGTH)
+	private String certType = null;
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
-	public String getShortname() {
-		return shortname;
-	}
-
-	public void setShortname(String shortname) {
-		this.shortname = shortname;
-	}
-
-	public String getLogo() {
-		return logo;
-	}
-
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
-
-	public String getDetail() {
-		return detail;
-	}
-
-	public void setDetail(String detail) {
-		this.detail = detail;
-	}
-
-	public String getIntro() {
-		return intro;
-	}
-
-	public void setIntro(String intro) {
-		this.intro = intro;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPosters() {
-		return posters;
-	}
-
-	public void setPosters(String posters) {
-		this.posters = posters;
-	}
-
-	public String getTelephone() {
-		return telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-
-	public String getCoordinate() {
-		return coordinate;
-	}
-
-	public void setCoordinate(String coordinate) {
-		this.coordinate = coordinate;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
 }

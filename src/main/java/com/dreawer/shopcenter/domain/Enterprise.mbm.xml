@@ -9,9 +9,9 @@
 	
 	<!-- 保存地址信息 -->
 	<insert id="save" parameterType="Enterprise">
-        INSERT INTO aci_enterprise(id, app_id, app_ctg, name, sht_nam, logo, intro, province, city,
+        INSERT INTO aci_enterprise(id, app_id, app_ctg, name, app_nam,bus_lic,cert,cert_type,logo, intro, province, city,
         	area, detail, email, phone,url,crer_id)
-        VALUES(#{id}, #{appid}, #{category}, #{name}, #{shortname}, #{logo}, #{intro}, #{province},
+        VALUES(#{id}, #{appid}, #{category}, #{name}, #{appName},#{businessLicense}, #{certificate}, #{certType}, #{logo}, #{intro}, #{province},
         	#{city}, #{area}, #{detail}, #{email}, #{phone},#{url},#{userId})
     </insert>
     
@@ -32,7 +32,7 @@
 	<!-- 更新认证信息 -->
 	<update id="updateBasic" parameterType="Enterprise">
 		UPDATE aci_enterprise
-		SET	name=#{name}, sht_nam=#{shortname}, logo=#{logo},intro=#{intro}, coordinate=#{coordinate},
+		SET	name=#{name}, app_nam=#{appName},bus_lic=#{businessLicense},cert=#{certificate},cert_type=#{certType},logo=#{logo},intro=#{intro}, coordinate=#{coordinate},
 			province=#{province}, city=#{city}, area=#{area}, detail=#{detail}, email=#{email}, phone=#{phone}, 
 			mobile=#{mobile}, bot_img=#{bootImage}, bot_tim=#{bootTime}, posters=#{posters}, telephone=#{telephone}, 
 			url=#{url}, upd_tim=#{updateTime}
@@ -100,7 +100,7 @@
     
     <!-- 企业基本信息字段 -->
 	<sql id="enterpriseBasicFields">
-		id, app_id, app_ctg, name, sht_nam, logo ,intro, coordinate, province, city, area, detail, email,
+		id, app_id, app_ctg, name, app_nam,bus_lic,cert,cert_type,logo ,intro, coordinate, province, city, area, detail, email,
 		phone, mobile, bot_img, bot_tim, posters, telephone,mer_cate,mem_por,mem_dis,gro_rule,url,cre_tim
 	</sql>
 	
@@ -114,7 +114,10 @@
 		<result property="appid" column="app_id" />
 		<result property="category" column="app_ctg" />
 		<result property="name" column="name" />
-		<result property="shortname" column="sht_nam" />
+		<result property="appName" column="app_nam" />
+		<result property="businessLicense" column="bus_lic" />
+		<result property="certificate" column="cert" />
+		<result property="certType" column="cert_type" />
 		<result property="logo" column="logo" />
 		<result property="intro" column="intro" />
 		<result property="coordinate" column="coordinate" />
