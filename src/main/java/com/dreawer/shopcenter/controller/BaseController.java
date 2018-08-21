@@ -80,18 +80,6 @@ public class BaseController {
 
 
 
-    private static byte[] parseHexStr2Byte(String hexStr) {
-        if (hexStr.length() < 1)
-            return null;
-        byte[] result = new byte[hexStr.length()/2];
-        for (int i = 0;i< hexStr.length()/2; i++) {
-            int high = Integer.parseInt(hexStr.substring(i*2, i*2+1), 16);
-            int low = Integer.parseInt(hexStr.substring(i*2+1, i*2+2), 16);
-            result[i] = (byte) (high * 16 + low);
-        }
-        return result;
-    }
-
     public Boolean verifyPhone(String phoneNumber,String code,String userId){
         Map<String,Object> data = new HashMap<>();
         //data.put("module","MODULE_VERIF_CODE");
@@ -118,6 +106,20 @@ public class BaseController {
         String response = restTemplate.postForObject(url, entity, String.class);
         System.out.println(response);
         return response;
+    }
+
+    /**
+     * restGET请求
+     * 注意在getForObject传URLVariable时需要在url中指定占位符
+     * 如http://xxx.com?id={A} map.put("id",id)
+     * @param url
+     * @return
+     */
+    public String restGet(String url) {
+        RestTemplate restTemplate = new RestTemplate();
+        String response = restTemplate.getForObject(url, String.class);
+        return response;
+
     }
 
 

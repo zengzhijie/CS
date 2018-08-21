@@ -6,12 +6,15 @@ import com.dreawer.responsecode.rcdt.ResponseCode;
 import com.dreawer.responsecode.rcdt.Success;
 import com.dreawer.shopcenter.domain.Carousel;
 import com.dreawer.shopcenter.domain.Enterprise;
+import com.dreawer.shopcenter.exception.ResponseCodeException;
 import com.dreawer.shopcenter.form.*;
 import com.dreawer.shopcenter.service.CarouselService;
 import com.dreawer.shopcenter.service.EnterpriseService;
+import com.google.gson.Gson;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,10 +36,11 @@ import static com.dreawer.shopcenter.consts.DomainConstants.STORE_ID;
 
 @Controller(ENTERPRISE_CONTROLLER)
 @RequestMapping("/enterprise")
+@Slf4j
 public class EnterpriseController extends BaseController{
 
-
-
+	/** 获取小程序头像昵称接口 **/
+	private static final String URL_APP_INFO = "http://mpomc/auth/appInfo";
 
 	@Autowired
 	private EnterpriseService enterpriseService; // 企业信息服务
@@ -452,7 +456,34 @@ public class EnterpriseController extends BaseController{
 		return Success.SUCCESS;
 	}
 
-
-
+	/**
+	 * 同步微信小程序信息
+	 * @param req 用户请求
+	 * @return
+	 */
+	@GetMapping(value = "/syncApp")
+	public @ResponseBody ResponseCode syncApp(HttpServletRequest req) throws ResponseCodeException {
+		String storeid = req.getHeader("storeid");
+		if (StringUtils.isBlank(storeid)){
+			return Error.EXT_RESPONSE("未获取到店铺id");
+		}
+		Enterprise enterprise = enterpriseService.findEnterpriseById(storeid);
+		if(enterprise==null){
+			return Error.DB("未找到该企业");
+		}
+		String response = restGet(URL_APP_INFO + "?" + "storeId=" + storeid);
+		log.info("运维中心返回结果:"+response);
+        ResponseCode responseCode = ResponseCode.instanceOf(response);
+        if (!responseCode.getCode().equals("000000")){
+            throw new ResponseCodeException(responseCode);
+        }
+		Map<String,String> map = new Gson().fromJson(responseCode.getData().toString(), Map.class);
+		String nickName = map.get("nickName");
+		String logo = map.get("logo");
+		enterprise.setLogo(logo);
+		enterprise.setAppName(nickName);
+		enterpriseService.updateBasic(enterprise);
+		return Success.SUCCESS(enterprise);
+	}
 
 }
