@@ -1,11 +1,13 @@
 package com.dreawer.shopcenter.form;
 
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import static com.dreawer.shopcenter.MessageConstants.VAL_BOOT_IMG_LENTH;
 import static com.dreawer.shopcenter.MessageConstants.VAL_OBJECT_ID_NOT_EMPTY;
 
+@Data
 public class EditEnterpriseForm extends BaseEnterpriseForm{
 	
 	@NotEmpty(message=VAL_OBJECT_ID_NOT_EMPTY)
@@ -17,37 +19,12 @@ public class EditEnterpriseForm extends BaseEnterpriseForm{
 	private String bootImage = null;
 	
 	private Integer bootTime = null;
-    
-	public String getId() {
-		return id;
-	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
+	private String province = null;
 
-	public String getValue() {
-		return value;
-	}
+	private String city = null;
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+	private String area = null;
 
-	public String getBootImage() {
-		return bootImage;
-	}
-
-	public void setBootImage(String bootImage) {
-		this.bootImage = bootImage;
-	}
-
-	public Integer getBootTime() {
-		return bootTime;
-	}
-
-	public void setBootTime(Integer bootTime) {
-		this.bootTime = bootTime;
-	}
 	
 }

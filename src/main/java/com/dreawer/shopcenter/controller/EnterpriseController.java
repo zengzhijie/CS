@@ -221,6 +221,16 @@ public class EnterpriseController extends BaseController{
             ep.setCertType(form.getCertType());
         }
 
+        //修改省市区
+		if (!StringUtils.isBlank(form.getCity())){
+			ep.setCity(form.getCity());
+		}
+		if (!StringUtils.isBlank(form.getArea())){
+			ep.setArea(form.getArea());
+		}
+		if (!StringUtils.isBlank(form.getProvince())){
+			ep.setProvince(form.getProvince());
+		}
 	    	ep.setUserId(userId);
 	    	ep.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             enterpriseService.updateBasic(ep);
