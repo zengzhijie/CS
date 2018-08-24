@@ -51,6 +51,7 @@ public class EnterpriseController extends BaseController{
 
 	@Autowired
 	private CarouselService carouselService; //轮播图服务
+
     
     /**
      * 添加企业信息。
@@ -67,32 +68,28 @@ public class EnterpriseController extends BaseController{
     	if (result.hasErrors()) {
             return checkErrors(result);
         }
+        	//店铺通过授权创建,如果该接口被重新授权调用则只用更新小程序授权信息即可,无需重新创建店铺
 			String userId = req.getHeader("userid");
 			String appid = form.getAppid();
 	    	if(StringUtils.isBlank(appid)){
 		    	return Error.EXT_RESPONSE(MSG_APP_NULL);
 	    	}
-	    	Enterprise enterprise = enterpriseService.findEnterpriseById(appid);
-	    	if(enterprise!=null){
-				return Error.DB(MSG_ENTERPRISE_EXISTS);
-	    	}
-			Enterprise enterpriseByApp = enterpriseService.findEnterpriseByApp(form.getAppid());
-	    	if (enterpriseByApp!=null){
-	    		return Error.DB(MSG_ENTERPRISE_EXISTS);
-			}
-			enterprise = enterpriseService.findEnterpriseByName(form.getName());
-	    	if(enterprise!=null){
-				return  Error.DB(MSG_ENTERPRISE_NAME_EXISTS);
-	    	}
 
-	    	Enterprise ep = new Enterprise();
-	    	ep.setId(appid);
-	    	ep.setAppid(form.getAppid());
-	    	ep.setCategory("media");
-	    	ep.setName(form.getName());
-	    	ep.setAppName(form.getAppName());
-	    	ep.setLogo(form.getLogo());
-	    	ep.setIntro(form.getIntro());
+			Enterprise ep = enterpriseService.findEnterpriseByApp(form.getAppid());
+	    	if (ep!=null){
+
+
+			}else {
+				ep.setAppid(form.getAppid());
+				ep.setCategory("media");
+				ep.setName(form.getName());
+				ep.setAppName(form.getAppName());
+				ep.setLogo(form.getLogo());
+				ep.setIntro(form.getIntro());
+			}
+
+
+
 
 	    	//添加特许证件和营业执照
             if (!StringUtils.isBlank(form.getBusinessLicense())){
