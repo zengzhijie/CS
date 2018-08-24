@@ -42,6 +42,9 @@ public class EnterpriseController extends BaseController{
 	/** 获取小程序头像昵称接口 **/
 	private static final String URL_APP_INFO = "http://mpomc/auth/appInfo";
 
+	/** 获取小程序类目接口 **/
+	private static final String URL_APP_CATEGORY = "http://mpomc/auth/appCategory";
+
 	@Autowired
 	private EnterpriseService enterpriseService; // 企业信息服务
 
@@ -496,4 +499,24 @@ public class EnterpriseController extends BaseController{
 		return Success.SUCCESS(enterprise);
 	}
 
+
+	/**
+	 * 获取小程序服务类目
+	 * @param req 用户请求
+	 * @return
+	 */
+	@GetMapping(value = "/getAppCategory")
+	public @ResponseBody ResponseCode getAppCategory(HttpServletRequest req) throws ResponseCodeException {
+		String storeid = req.getHeader("appid");
+		if (StringUtils.isBlank(storeid)){
+			return Error.EXT_RESPONSE("未获取到店铺id");
+		}
+		String response = restGet(URL_APP_CATEGORY + "?" + "storeId=" + storeid);
+		log.info("运维中心返回结果:"+response);
+		ResponseCode responseCode = ResponseCode.instanceOf(response);
+		if (!responseCode.getCode().equals("000000")){
+			throw new ResponseCodeException(responseCode);
+		}
+		return Success.SUCCESS(responseCode.getData());
+	}
 }
