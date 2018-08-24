@@ -473,7 +473,7 @@ public class EnterpriseController extends BaseController{
 	 */
 	@GetMapping(value = "/syncApp")
 	public @ResponseBody ResponseCode syncApp(HttpServletRequest req) throws ResponseCodeException {
-		String storeid = req.getHeader("storeid");
+		String storeid = req.getHeader("appid");
 		if (StringUtils.isBlank(storeid)){
 			return Error.EXT_RESPONSE("未获取到店铺id");
 		}
