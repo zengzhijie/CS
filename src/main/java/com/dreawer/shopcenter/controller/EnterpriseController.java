@@ -77,35 +77,28 @@ public class EnterpriseController extends BaseController{
 
 			Enterprise ep = enterpriseService.findEnterpriseByApp(form.getAppid());
 	    	if (ep!=null){
-
-
-			}else {
 				ep.setAppid(form.getAppid());
 				ep.setCategory("media");
 				ep.setName(form.getName());
 				ep.setAppName(form.getAppName());
 				ep.setLogo(form.getLogo());
 				ep.setIntro(form.getIntro());
+				ep.setUpdateTime(getNow());
+				enterpriseService.updateBasic(ep);
+			}else {
+	    		ep = new Enterprise();
+				ep.setAppid(form.getAppid());
+				ep.setCategory("media");
+				ep.setName(form.getName());
+				ep.setAppName(form.getAppName());
+				ep.setLogo(form.getLogo());
+				ep.setIntro(form.getIntro());
+				ep.setUserId(userId);
+				ep.setCreateTime(getNow());
+				enterpriseService.save(ep);
 			}
 
 
-
-
-	    	//添加特许证件和营业执照
-            if (!StringUtils.isBlank(form.getBusinessLicense())){
-                ep.setBusinessLicense(form.getBusinessLicense());
-            }
-            if (!StringUtils.isBlank(form.getCertificate())&&StringUtils.isBlank(form.getCertType())){
-                return EntryError.EMPTY(MSG_CERTIFICATE_TYPE_NULL);
-            }
-
-            if (!StringUtils.isBlank(form.getCertificate())){
-                ep.setCertificate(form.getCertificate());
-                ep.setCertType(form.getCertType());
-            }
-
-	    	ep.setUserId(userId);
-	    	enterpriseService.save(ep);
 			return Success.SUCCESS(ep);
 
 	}
