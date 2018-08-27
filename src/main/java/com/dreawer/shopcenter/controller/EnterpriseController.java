@@ -514,7 +514,7 @@ public class EnterpriseController extends BaseController{
 		if (!responseCode.getCode().equals("000000")){
 			throw new ResponseCodeException(responseCode);
 		}
-		return Success.SUCCESS(responseCode.getData());
+		return Success.SUCCESS(new Gson().toJson(responseCode.getData()));
 	}
 
 
