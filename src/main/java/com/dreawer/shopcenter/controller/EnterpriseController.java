@@ -516,4 +516,22 @@ public class EnterpriseController extends BaseController{
 		}
 		return Success.SUCCESS(responseCode.getData());
 	}
+
+
+	/**
+	 * 获取小程序服务类目
+	 * @param req 用户请求
+	 * @return
+	 */
+	@GetMapping(value = "/test")
+	public @ResponseBody ResponseCode test(HttpServletRequest req) throws ResponseCodeException {
+
+		String response = restGet("http://nc/api/send");
+		log.info("通知中心返回结果:"+response);
+		ResponseCode responseCode = ResponseCode.instanceOf(response);
+		if (!responseCode.getCode().equals("000000")){
+			throw new ResponseCodeException(responseCode);
+		}
+		return Success.SUCCESS(responseCode.getData());
+	}
 }
