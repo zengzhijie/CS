@@ -491,6 +491,9 @@ public class EnterpriseController extends BaseController{
 		String nickName = map.get("nick_name");
 		String logo = map.get("head_img");
 		String desc = map.get("signature");
+		if (!StringUtils.isBlank(map.get("principal_name"))){
+			enterprise.setName(map.get("principal_name"));
+		}
 		enterprise.setLogo(logo);
 		enterprise.setAppName(nickName);
 		enterprise.setIntro(desc);
