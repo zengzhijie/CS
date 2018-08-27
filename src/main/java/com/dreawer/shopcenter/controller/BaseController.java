@@ -116,7 +116,6 @@ public class BaseController {
      * @return
      */
     public String restGet(String url) {
-        RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.getForObject(url, String.class);
         return response;
 
