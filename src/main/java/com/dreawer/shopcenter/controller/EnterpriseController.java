@@ -488,10 +488,12 @@ public class EnterpriseController extends BaseController{
             throw new ResponseCodeException(responseCode);
         }
 		Map<String,String> map = new Gson().fromJson(responseCode.getData().toString(), Map.class);
-		String nickName = map.get("nickName");
-		String logo = map.get("logo");
+		String nickName = map.get("nick_name");
+		String logo = map.get("head_img");
+		String desc = map.get("signature");
 		enterprise.setLogo(logo);
 		enterprise.setAppName(nickName);
+		enterprise.setIntro(desc);
 		enterpriseService.updateBasic(enterprise);
 		return Success.SUCCESS(enterprise);
 	}
