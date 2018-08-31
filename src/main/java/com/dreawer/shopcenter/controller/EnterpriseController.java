@@ -70,12 +70,8 @@ public class EnterpriseController extends BaseController{
         }
         	//店铺通过授权创建,如果该接口被重新授权调用则只用更新小程序授权信息即可,无需重新创建店铺
 			String userId = req.getHeader("userid");
-			String appid = form.getAppid();
-	    	if(StringUtils.isBlank(appid)){
-		    	return Error.EXT_RESPONSE(MSG_APP_NULL);
-	    	}
 
-			Enterprise ep = enterpriseService.findEnterpriseByApp(form.getAppid());
+			Enterprise ep = enterpriseService.findEnterpriseById(form.getId());
 	    	if (ep!=null){
 				ep.setAppid(form.getAppid());
 				ep.setCategory("media");
@@ -87,6 +83,7 @@ public class EnterpriseController extends BaseController{
 				enterpriseService.updateBasic(ep);
 			}else {
 	    		ep = new Enterprise();
+	    		ep.setId(form.getId());
 				ep.setAppid(form.getAppid());
 				ep.setCategory("media");
 				ep.setName(form.getName());
