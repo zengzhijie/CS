@@ -221,6 +221,9 @@ public class EnterpriseController extends BaseController{
 		if (!StringUtils.isBlank(form.getProvince())){
 			ep.setProvince(form.getProvince());
 		}
+			//传null则删除营业执照和特许证件
+			ep.setBusinessLicense(form.getBusinessLicense());
+			ep.setCertificate(form.getCertificate());
 	    	ep.setUserId(userId);
 	    	ep.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             enterpriseService.updateBasic(ep);
