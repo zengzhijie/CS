@@ -63,10 +63,10 @@ public class Enterprise extends BaseDomain {
 	private String url = null;
 
 	private String userId = null; // 创建者
-    
-    private Timestamp createTime = null; // 创建时间
+
+	private Timestamp createTime = null; // 创建时间
 
     private Timestamp updateTime = null; // 更新时间
-	
+
 
 }
