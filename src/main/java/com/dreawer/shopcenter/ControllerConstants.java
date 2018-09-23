@@ -9,7 +9,7 @@ package com.dreawer.shopcenter;
  * @since Dreawer 1.0
  */
 public final class ControllerConstants {
-
+ public int s;
     /**
      * 订单控制器
      */
@@ -206,16 +206,24 @@ public final class ControllerConstants {
      */
     public static final String REQ_TXMAP_ADDRESS = "/txmap/address";
 
-    /** 请求“返回折扣金额” */
+    /**
+     * 请求“返回折扣金额”
+     */
     public static final String REQ_REDUCTION_AMOUNT = "/reductionAmount";
 
-    /** 请求“优先推荐优惠劵” */
+    /**
+     * 请求“优先推荐优惠劵”
+     */
     public static final String REQ_OPTIMUM_COUPON = "/optimumCoupon";
 
-    /** app详情url **/
+    /**
+     * app详情url
+     **/
     public static final String APP_DETAIL = "/app/detail";
 
-    /** 刷新token **/
+    /**
+     * 刷新token
+     **/
     public static final String REFRESH_TOKEN = "/thirdPart/refreshToken";
 
     /**
@@ -235,13 +243,19 @@ public final class ControllerConstants {
      */
     public static final String ERROR = "error";
 
-    /** 腾讯地图关键字搜索URL */
-    public static final String URL_TXMAP_SUGGESTION  = "https://apis.map.qq.com/ws/place/v1/suggestion/";
+    /**
+     * 腾讯地图关键字搜索URL
+     */
+    public static final String URL_TXMAP_SUGGESTION = "https://apis.map.qq.com/ws/place/v1/suggestion/";
 
-    /** 腾讯地图详细坐标查询URL */
-    public static final String URL_TXMAP_LOCATION  = "https://apis.map.qq.com/ws/geocoder/v1/";
+    /**
+     * 腾讯地图详细坐标查询URL
+     */
+    public static final String URL_TXMAP_LOCATION = "https://apis.map.qq.com/ws/geocoder/v1/";
 
-    /** 腾讯密匙 */
+    /**
+     * 腾讯密匙
+     */
     public static final String TXMAP_KEY = "3PHBZ-XT2WF-RBCJD-JMP6T-7QL5J-VDFBH";
 
     /**
