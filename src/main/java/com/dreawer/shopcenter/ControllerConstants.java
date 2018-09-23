@@ -9,7 +9,7 @@ package com.dreawer.shopcenter;
  * @since Dreawer 1.0
  */
 public final class ControllerConstants {
- public int s;
+
     /**
      * 订单控制器
      */
